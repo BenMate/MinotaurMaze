@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f115372d2901b0546be45411c771f5ba
+guid: 229acc54480a6f940a8c958954f8a077
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8647925616505586167
-    second: badWall_0
+      213: -7744424781442014258
+    second: Minotaur_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: badWall_0
+      name: Minotaur_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 512
-        height: 512
+        width: 41
+        height: 52
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7f101df878a930870800000000000000
-      internalID: 8647925616505586167
+      spriteID: ec3aa6861b6468490800000000000000
+      internalID: -7744424781442014258
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      badWall_0: 8647925616505586167
+      Minotaur_0: -7744424781442014258
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
