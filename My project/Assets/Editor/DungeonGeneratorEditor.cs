@@ -9,22 +9,26 @@ public class DungeonGeneratorEditor : Editor
 
     void OnEnable()
     {
-        generator = (DungeonGenerator)target;
-        CachePreviewDungeon();
+        generator = target as DungeonGenerator;
+        if (generator != null)
+            CachePreviewDungeon();
     }
 
     void OnSceneGUI()
     {
-        Event e = Event.current;
-        if (!generator) return;
+        if (generator == null) return;
 
+        Event e = Event.current;
         if (e.type == EventType.KeyDown && e.keyCode == KeyCode.R)
         {
-            serializedObject.ApplyModifiedProperties();
-            generator.GenerateDungeon();
-            CachePreviewDungeon();
-            Debug.Log("Dungeon regenerated with hotkey [R]");
-            e.Use();
+            if (generator != null)
+            {
+                serializedObject.ApplyModifiedProperties();
+                generator.GenerateDungeon();
+                CachePreviewDungeon();
+                Debug.Log("Dungeon regenerated with hotkey [R]");
+                e.Use();
+            }
         }
 
         if (generator.showPreview && !generator.useGizmos && previewDungeon != null)
@@ -35,8 +39,10 @@ public class DungeonGeneratorEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        if (generator == null) return;
+
+        serializedObject.Update();
         DrawDefaultInspector();
-        if (!generator) return;
 
         GUILayout.Space(10);
 
@@ -66,11 +72,15 @@ public class DungeonGeneratorEditor : Editor
         generator.useGizmos = EditorGUILayout.Toggle("Use Gizmos", generator.useGizmos);
 
         EditorGUILayout.HelpBox("Press 'R' in Scene view to regenerate.", MessageType.Info);
+
+        serializedObject.ApplyModifiedProperties();
     }
 
     private void CachePreviewDungeon()
     {
         if (generator == null || generator.dungeon == null) return;
+        if (generator.gridWidth <= 0 || generator.gridHeight <= 0) return;
+
         previewDungeon = new DungeonGenerator.TileType[generator.gridWidth, generator.gridHeight];
         System.Array.Copy(generator.dungeon, previewDungeon, generator.dungeon.Length);
     }
@@ -78,6 +88,7 @@ public class DungeonGeneratorEditor : Editor
     private void DrawPreviewDungeon()
     {
         if (previewDungeon == null) return;
+
         Color floorColor = new Color(0.4f, 0.8f, 1f, 0.3f);
         Color wallColor = new Color(1f, 0.4f, 0.4f, 0.3f);
         Color outlineColor = Color.black;
@@ -105,15 +116,15 @@ public class DungeonGeneratorEditor : Editor
     [DrawGizmo(GizmoType.Selected | GizmoType.NonSelected)]
     static void DrawGizmos(DungeonGenerator generator, GizmoType gizmoType)
     {
-        if (generator == null) return;
-        if (!generator.showPreview || !generator.useGizmos) return;
-        if (generator.dungeon == null) return;
+        if (generator == null || !generator.showPreview || !generator.useGizmos) return;
+        if (generator.dungeon == null || generator.gridWidth <= 0 || generator.gridHeight <= 0) return;
 
         for (int x = 0; x < generator.gridWidth; x++)
         {
             for (int y = 0; y < generator.gridHeight; y++)
             {
                 Vector3 pos = new Vector3(x - 1, y - 1, 0);
+
                 switch (generator.dungeon[x, y])
                 {
                     case DungeonGenerator.TileType.Floor:
@@ -122,13 +133,16 @@ public class DungeonGeneratorEditor : Editor
                     case DungeonGenerator.TileType.Wall:
                         Gizmos.color = new Color(1f, 0.4f, 0.4f, 0.3f);
                         break;
-                    default: continue;
+                    default:
+                        continue;
                 }
+
                 Gizmos.DrawCube(pos + Vector3.one * 0.5f, Vector3.one);
             }
         }
     }
 }
+
 
 
 
