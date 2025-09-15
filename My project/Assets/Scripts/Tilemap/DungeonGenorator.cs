@@ -1,5 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -13,16 +17,23 @@ public class DungeonGenerator : MonoBehaviour
     public List<WeightedTile> wallTiles;
 
     [Header("Generation Settings")]
-    public GenerationType generationType;
     public bool regenerateOnPlay = true;
     public int seed = 0;
 
-    public enum GenerationType { RandomWalk, BSP, CellularAutomata }
+    [Header("Editor Preview")]
+    public bool showPreview = true;
+    public bool useGizmos = false;
 
-    private enum TileType { Floor, Wall }
-    private TileType[,] dungeon;
+    [Header("Player")]
+    public GameObject playerPrefab;
+    [HideInInspector] public Transform playerInstance;
 
-    // BSP room tracking
+    public enum TileType { Empty, Floor, Wall }
+    public TileType[,] dungeon;
+
+    public int gridWidth;
+    public int gridHeight;
+
     private class Room
     {
         public int x, y, width, height;
@@ -36,7 +47,7 @@ public class DungeonGenerator : MonoBehaviour
         width = Mathf.Max(width, minSize);
         height = Mathf.Max(height, minSize);
 
-        GenerateDungeon();
+        if (regenerateOnPlay) GenerateDungeon();
     }
 
     public void GenerateDungeon()
@@ -44,70 +55,36 @@ public class DungeonGenerator : MonoBehaviour
         width = Mathf.Max(width, minSize);
         height = Mathf.Max(height, minSize);
 
-        // Seed random
-        if (seed == 0)
-            Random.InitState(System.Environment.TickCount);
-        else
-            Random.InitState(seed);
+        if (seed == 0) Random.InitState(System.Environment.TickCount);
+        else Random.InitState(seed);
 
-        dungeon = new TileType[width, height];
+        gridWidth = width + 2;
+        gridHeight = height + 2;
+        dungeon = new TileType[gridWidth, gridHeight];
 
-        switch (generationType)
-        {
-            case GenerationType.RandomWalk: GenerateRandomWalk(); break;
-            case GenerationType.BSP: GenerateBSP(); break;
-            case GenerationType.CellularAutomata: GenerateCellularAutomata(); break;
-        }
+        // initialize empty
+        for (int x = 0; x < gridWidth; x++)
+            for (int y = 0; y < gridHeight; y++)
+                dungeon[x, y] = TileType.Empty;
 
-        RenderDungeon();
-    }
-
-    // ---------------------------
-    // RANDOM WALK
-    // ---------------------------
-    void GenerateRandomWalk()
-    {
-        for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
-                dungeon[x, y] = TileType.Wall;
-
-        Vector2Int pos = new Vector2Int(width / 2, height / 2);
-        int targetTiles = (int)(width * height * 0.6f);
-
-        for (int i = 0; i < targetTiles; i++)
-        {
-            dungeon[pos.x, pos.y] = TileType.Floor;
-
-            int dir = Random.Range(0, 4);
-            if (dir == 0 && pos.x > 1) pos.x--;
-            else if (dir == 1 && pos.x < width - 2) pos.x++;
-            else if (dir == 2 && pos.y > 1) pos.y--;
-            else if (dir == 3 && pos.y < height - 2) pos.y++;
-        }
-    }
-
-    // ---------------------------
-    // BSP WITH CORRIDORS
-    // ---------------------------
-    void GenerateBSP()
-    {
-        for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
-                dungeon[x, y] = TileType.Wall;
-
+        // BSP generation
         rooms = new List<Room>();
-        SubdivideWithRooms(0, 0, width, height, 5);
+        SubdivideWithRooms(1, 1, width, height, 5);
         ConnectRooms();
+
+        AddWallsAroundFloors();
+        RenderDungeon();
+        SpawnPlayer(); // Spawn player at root node
     }
 
     void SubdivideWithRooms(int x, int y, int w, int h, int depth)
     {
         if (depth <= 0 || w <= 4 || h <= 4)
         {
-            int roomWidth = Random.Range(2, w);
-            int roomHeight = Random.Range(2, h);
-            int roomX = x + Random.Range(0, w - roomWidth + 1);
-            int roomY = y + Random.Range(0, h - roomHeight + 1);
+            int roomWidth = Random.Range(2, Mathf.Max(2, w));
+            int roomHeight = Random.Range(2, Mathf.Max(2, h));
+            int roomX = x + Random.Range(0, Mathf.Max(1, w - roomWidth + 1));
+            int roomY = y + Random.Range(0, Mathf.Max(1, h - roomHeight + 1));
 
             CarveRoom(roomX, roomY, roomWidth, roomHeight);
             rooms.Add(new Room(roomX, roomY, roomWidth, roomHeight));
@@ -116,13 +93,13 @@ public class DungeonGenerator : MonoBehaviour
 
         if (w > h)
         {
-            int split = Random.Range(2, w - 2);
+            int split = Random.Range(2, w - 1);
             SubdivideWithRooms(x, y, split, h, depth - 1);
             SubdivideWithRooms(x + split, y, w - split, h, depth - 1);
         }
         else
         {
-            int split = Random.Range(2, h - 2);
+            int split = Random.Range(2, h - 1);
             SubdivideWithRooms(x, y, w, split, depth - 1);
             SubdivideWithRooms(x, y + split, w, h - split, depth - 1);
         }
@@ -159,53 +136,66 @@ public class DungeonGenerator : MonoBehaviour
     {
         int min = Mathf.Min(xStart, xEnd);
         int max = Mathf.Max(xStart, xEnd);
-        for (int x = min; x <= max; x++) dungeon[x, y] = TileType.Floor;
+        int corridorWidth = Random.Range(2, 4);
+
+        for (int x = min; x <= max; x++)
+            for (int w = 0; w < corridorWidth; w++)
+            {
+                int yy = y + w;
+                if (yy >= 0 && yy < gridHeight) dungeon[x, yy] = TileType.Floor;
+            }
     }
 
     void CarveVertical(int yStart, int yEnd, int x)
     {
         int min = Mathf.Min(yStart, yEnd);
         int max = Mathf.Max(yStart, yEnd);
-        for (int y = min; y <= max; y++) dungeon[x, y] = TileType.Floor;
+        int corridorWidth = Random.Range(2, 4);
+
+        for (int y = min; y <= max; y++)
+            for (int w = 0; w < corridorWidth; w++)
+            {
+                int xx = x + w;
+                if (xx >= 0 && xx < gridWidth) dungeon[xx, y] = TileType.Floor;
+            }
     }
 
-    // ---------------------------
-    // CELLULAR AUTOMATA
-    // ---------------------------
-    void GenerateCellularAutomata()
+    void AddWallsAroundFloors()
     {
-        for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
-                dungeon[x, y] = (Random.value < 0.45f) ? TileType.Wall : TileType.Floor;
-
-        for (int i = 0; i < 5; i++)
+        for (int x = 0; x < gridWidth; x++)
         {
-            TileType[,] newMap = new TileType[width, height];
-            for (int x = 0; x < width; x++)
-                for (int y = 0; y < height; y++)
+            for (int y = 0; y < gridHeight; y++)
+            {
+                if (dungeon[x, y] == TileType.Floor)
                 {
-                    int walls = CountWallsAround(x, y);
-                    newMap[x, y] = (walls > 4) ? TileType.Wall : TileType.Floor;
+                    for (int dx = -1; dx <= 1; dx++)
+                        for (int dy = -1; dy <= 1; dy++)
+                        {
+                            int nx = x + dx;
+                            int ny = y + dy;
+                            if (nx >= 0 && ny >= 0 && nx < gridWidth && ny < gridHeight)
+                            {
+                                if (dungeon[nx, ny] == TileType.Empty)
+                                    dungeon[nx, ny] = TileType.Wall;
+                            }
+                        }
                 }
-            dungeon = newMap;
+            }
+        }
+
+        // Fill edges
+        for (int x = 0; x < gridWidth; x++)
+        {
+            dungeon[x, 0] = TileType.Wall;
+            dungeon[x, gridHeight - 1] = TileType.Wall;
+        }
+        for (int y = 0; y < gridHeight; y++)
+        {
+            dungeon[0, y] = TileType.Wall;
+            dungeon[gridWidth - 1, y] = TileType.Wall;
         }
     }
 
-    int CountWallsAround(int x, int y)
-    {
-        int count = 0;
-        for (int i = x - 1; i <= x + 1; i++)
-            for (int j = y - 1; j <= y + 1; j++)
-            {
-                if (i < 0 || j < 0 || i >= width || j >= height) count++;
-                else if (dungeon[i, j] == TileType.Wall) count++;
-            }
-        return count;
-    }
-
-    // ---------------------------
-    // RENDERING
-    // ---------------------------
     void RenderDungeon()
     {
         List<Transform> children = new List<Transform>();
@@ -220,21 +210,25 @@ public class DungeonGenerator : MonoBehaviour
 #endif
         }
 
-        for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
+        for (int x = 0; x < gridWidth; x++)
+            for (int y = 0; y < gridHeight; y++)
             {
-                Vector3 pos = new Vector3(x, y, 0);
-                if (dungeon[x, y] == TileType.Floor)
-                    SpawnWeightedTile(floorTiles, pos);
-                else
-                    SpawnWeightedTile(wallTiles, pos);
+                Vector3 pos = new Vector3(x - 1, y - 1, 0);
+                switch (dungeon[x, y])
+                {
+                    case TileType.Floor:
+                        SpawnWeightedTile(floorTiles, pos);
+                        break;
+                    case TileType.Wall:
+                        SpawnWeightedTile(wallTiles, pos);
+                        break;
+                }
             }
     }
 
     void SpawnWeightedTile(List<WeightedTile> tiles, Vector3 pos)
     {
         if (tiles.Count == 0) return;
-
         float total = 0;
         foreach (var t in tiles) total += t.spawnChance;
 
@@ -247,21 +241,47 @@ public class DungeonGenerator : MonoBehaviour
             if (r <= cumulative)
             {
 #if UNITY_EDITOR
-                GameObject obj = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(t.prefab, transform);
+                GameObject obj = (GameObject)PrefabUtility.InstantiatePrefab(t.prefab, transform);
                 obj.transform.position = pos;
 #else
                 GameObject obj = Instantiate(t.prefab, pos, Quaternion.identity, transform);
 #endif
                 float scale = Random.Range(t.minScale, t.maxScale);
                 obj.transform.localScale = new Vector3(scale, scale, scale);
-
                 if (t.randomRotation)
                     obj.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
-
                 return;
             }
         }
     }
+
+    public void SpawnPlayer()
+    {
+        if (playerPrefab == null) return;
+
+        // Ensure dungeon exists
+        if (dungeon == null || rooms == null || rooms.Count == 0)
+        {
+            Debug.Log("Dungeon not generated yet. Generating now...");
+            GenerateDungeon();
+        }
+
+        Room rootRoom = rooms[0]; // root BSP room
+        Vector2Int spawnPos = rootRoom.Center;
+        Vector3 worldPos = new Vector3(spawnPos.x - 1, spawnPos.y - 1, 0); // adjust for padding
+
+        if (playerInstance != null) DestroyImmediate(playerInstance.gameObject);
+
+        GameObject playerObj = Instantiate(playerPrefab, worldPos, Quaternion.identity);
+        playerObj.name = "Player";
+        playerInstance = playerObj.transform;
+    }
 }
+
+
+
+
+
+
 
 
