@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 824bf44c81f599e4fa7aa9ab70bdac27
+guid: 4b83640e043760f43990f95b7b861ee4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -570021962219346442
-    second: Floor_1_Cracked_0
+      213: -4581613969641994310
+    second: Wall_Sign_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Floor_1_Cracked_0
+      name: Wall_Sign_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6f5aeb3ab00e618f0800000000000000
-      internalID: -570021962219346442
+      spriteID: ab785897e56da60c0800000000000000
+      internalID: -4581613969641994310
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Floor_1_Cracked_0: -570021962219346442
+      Wall_Sign_0: -4581613969641994310
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
