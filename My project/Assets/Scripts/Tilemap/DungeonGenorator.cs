@@ -42,6 +42,8 @@ public class DungeonGenerator : MonoBehaviour
     // ---------------------------
     public void GenerateDungeon()
     {
+        ClearDungeon(); // Clear previous dungeon completely
+
         width = Mathf.Max(width, minSize);
         height = Mathf.Max(height, minSize);
 
@@ -104,7 +106,7 @@ public class DungeonGenerator : MonoBehaviour
     {
         for (int i = x; i < x + w; i++)
             for (int j = y; j < y + h; j++)
-                dungeon[i, j] = TileType.Floor;
+                SetFloorSafe(i, j);
     }
 
     void ConnectRooms()
@@ -117,34 +119,37 @@ public class DungeonGenerator : MonoBehaviour
             int corridorThickness = Random.Range(2, 4);
 
             if (Random.value < 0.5f)
-            {
-                CarveHorizontal(prev.x, curr.x, prev.y, corridorThickness);
-                CarveVertical(prev.y, curr.y, curr.x, corridorThickness);
-            }
+                CarveCorridor(prev, curr, corridorThickness);
             else
-            {
-                CarveVertical(prev.y, curr.y, prev.x, corridorThickness);
-                CarveHorizontal(prev.x, curr.x, curr.y, corridorThickness);
-            }
+                CarveCorridor(curr, prev, corridorThickness);
         }
     }
 
-    void CarveHorizontal(int xStart, int xEnd, int y, int thickness)
+    void CarveCorridor(Vector2Int start, Vector2Int end, int thickness)
     {
-        int min = Mathf.Min(xStart, xEnd);
-        int max = Mathf.Max(xStart, xEnd);
-        for (int x = min; x <= max; x++)
+        int x0 = start.x;
+        int y0 = start.y;
+        int x1 = end.x;
+        int y1 = end.y;
+
+        int dx = x1 >= x0 ? 1 : -1;
+        int dy = y1 >= y0 ? 1 : -1;
+
+        // Horizontal segment
+        for (int x = x0; x != x1 + dx; x += dx)
             for (int t = 0; t < thickness; t++)
-                if (y + t < height) dungeon[x, y + t] = TileType.Floor;
+                SetFloorSafe(x, y0 + t);
+
+        // Vertical segment
+        for (int y = y0; y != y1 + dy; y += dy)
+            for (int t = 0; t < thickness; t++)
+                SetFloorSafe(x1 + t, y);
     }
 
-    void CarveVertical(int yStart, int yEnd, int x, int thickness)
+    void SetFloorSafe(int x, int y)
     {
-        int min = Mathf.Min(yStart, yEnd);
-        int max = Mathf.Max(yStart, yEnd);
-        for (int y = min; y <= max; y++)
-            for (int t = 0; t < thickness; t++)
-                if (x + t < width) dungeon[x + t, y] = TileType.Floor;
+        if (x >= 0 && y >= 0 && x < width && y < height)
+            dungeon[x, y] = TileType.Floor;
     }
 
     // ---------------------------
@@ -152,30 +157,30 @@ public class DungeonGenerator : MonoBehaviour
     // ---------------------------
     void SurroundFloorsWithWalls()
     {
+        HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                if (dungeon[x, y] == TileType.Floor)
+                    floorPositions.Add(new Vector2Int(x, y));
+
         TileType[,] newDungeon = (TileType[,])dungeon.Clone();
 
-        for (int x = 0; x < width; x++)
+        foreach (var pos in floorPositions)
         {
-            for (int y = 0; y < height; y++)
-            {
-                if (dungeon[x, y] == TileType.Floor)
+            for (int dx = -1; dx <= 1; dx++)
+                for (int dy = -1; dy <= 1; dy++)
                 {
-                    for (int dx = -1; dx <= 1; dx++)
+                    if (dx == 0 && dy == 0) continue;
+
+                    int nx = pos.x + dx;
+                    int ny = pos.y + dy;
+
+                    if (nx >= 0 && ny >= 0 && nx < width && ny < height)
                     {
-                        for (int dy = -1; dy <= 1; dy++)
-                        {
-                            if (dx == 0 && dy == 0) continue;
-                            int nx = x + dx;
-                            int ny = y + dy;
-                            if (nx >= 0 && ny >= 0 && nx < width && ny < height)
-                            {
-                                if (dungeon[nx, ny] != TileType.Floor)
-                                    newDungeon[nx, ny] = TileType.Wall;
-                            }
-                        }
+                        if (!floorPositions.Contains(new Vector2Int(nx, ny)))
+                            newDungeon[nx, ny] = TileType.Wall;
                     }
                 }
-            }
         }
 
         dungeon = newDungeon;
@@ -213,7 +218,6 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
 
-        // Clear previous tiles
         foreach (Transform t in tilesParent)
 #if UNITY_EDITOR
             if (!Application.isPlaying) DestroyImmediate(t.gameObject); else Destroy(t.gameObject);
@@ -224,7 +228,6 @@ public class DungeonGenerator : MonoBehaviour
         spawnedTiles.Clear();
 
         for (int x = 0; x < width; x++)
-        {
             for (int y = 0; y < height; y++)
             {
                 Vector3 pos = new Vector3(x, y, 0f);
@@ -235,7 +238,6 @@ public class DungeonGenerator : MonoBehaviour
                 else
                     SpawnWeightedTile(wallTiles, pos, gridPos, 1);
             }
-        }
     }
 
     void SpawnWeightedTile(List<WeightedTile> tiles, Vector3 pos, Vector2Int gridPos, int orderInLayer)
@@ -265,7 +267,6 @@ public class DungeonGenerator : MonoBehaviour
                 obj.transform.localPosition = pos;
                 obj.transform.localScale = Vector3.one;
 
-                // Add TileFog if not already present
                 if (obj.GetComponent<TileFog>() == null)
                     obj.AddComponent<TileFog>();
 
@@ -300,7 +301,6 @@ public class DungeonGenerator : MonoBehaviour
         SpriteRenderer sr = spawnedPlayer.GetComponent<SpriteRenderer>();
         if (sr != null) sr.sortingOrder = 2;
 
-        // Ensure player has LightSource for fog
         if (spawnedPlayer.GetComponent<LightSource>() == null)
             spawnedPlayer.AddComponent<LightSource>();
     }
@@ -310,25 +310,35 @@ public class DungeonGenerator : MonoBehaviour
     // ---------------------------
     public void ClearDungeon()
     {
+        // Destroy all children of the tiles parent
         if (tilesParent != null)
         {
-            List<Transform> children = new List<Transform>();
-            foreach (Transform t in tilesParent) children.Add(t);
-            foreach (Transform t in children)
+            while (tilesParent.childCount > 0)
+            {
 #if UNITY_EDITOR
-                if (!Application.isPlaying) DestroyImmediate(t.gameObject); else Destroy(t.gameObject);
+                if (!Application.isPlaying) DestroyImmediate(tilesParent.GetChild(0).gameObject);
+                else Destroy(tilesParent.GetChild(0).gameObject);
 #else
-                Destroy(t.gameObject);
+            Destroy(tilesParent.GetChild(0).gameObject);
 #endif
+            }
         }
 
-        if (spawnedPlayer != null)
-#if UNITY_EDITOR
-            if (!Application.isPlaying) DestroyImmediate(spawnedPlayer); else Destroy(spawnedPlayer);
-#else
-            Destroy(spawnedPlayer);
-#endif
-
+        // Clear dictionary
         spawnedTiles.Clear();
+
+        // Reset dungeon array
+        dungeon = new TileType[width, height];
+
+        // Destroy player
+        if (spawnedPlayer != null)
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying) DestroyImmediate(spawnedPlayer);
+            else Destroy(spawnedPlayer);
+#else
+        Destroy(spawnedPlayer);
+#endif
+        }
     }
 }
