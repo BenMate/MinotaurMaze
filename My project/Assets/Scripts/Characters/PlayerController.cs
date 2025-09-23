@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     [Header("- Move Settings -")]
     [SerializeField] private float moveSpeed = 5f;
-
     [Header("- Components -")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerInput inputs;
@@ -33,7 +32,10 @@ public class PlayerController : MonoBehaviour
 
         Vector2 movement = inputs.moveInputs;
         if (movement.magnitude > 1f) movement.Normalize();
-        rb.linearVelocity = movement * moveSpeed;
+        
+       // rb.linearVelocity = movement * moveSpeed;
+
+        rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement);
     }
 }
 
