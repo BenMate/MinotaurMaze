@@ -101,4 +101,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sr: {fileID: 2827350656357836679}
-  fadeDistance: 5
+  fadeMultiplier: 0.46
+  distanceOffset: 0

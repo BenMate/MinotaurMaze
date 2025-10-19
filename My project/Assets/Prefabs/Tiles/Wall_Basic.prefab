@@ -102,7 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sr: {fileID: 2519668573270774457}
-  fadeDistance: 5
+  fadeMultiplier: 0.46
+  distanceOffset: 0
 --- !u!61 &7340610875563364458
 BoxCollider2D:
   m_ObjectHideFlags: 0

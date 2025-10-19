@@ -4,9 +4,9 @@ using System.Collections.Generic;
 public class DungeonGenerator : MonoBehaviour
 {
     [Header("Dungeon Size")]
-    public int width = 50;
-    public int height = 50;
-    private const int minSize = 10;
+    [Range(25, 150)] public int width = 50;
+    [Range(25, 150)] public int height = 50;
+    private const int minSize = 25;
 
     [Header("Tiles")]
     public List<WeightedTile> floorTiles;
@@ -16,29 +16,98 @@ public class DungeonGenerator : MonoBehaviour
     public int seed = 0;
     public bool useRandomSeed = true;
 
-    [Header("Player")]
+    [Header("Player & Enemy Prefabs")]
     public GameObject playerPrefab;
+    public GameObject enemyPrefab;
+    public int enemyCount = 1;
 
     [HideInInspector] public TileType[,] dungeon;
     public enum TileType { Floor, Wall }
 
-    [HideInInspector] public bool showPreview = true;
-    [HideInInspector] public bool useGizmos = false;
+    private List<Room> rooms;
+    private Transform tilesParent;
+    private GameObject spawnedPlayer;
+    public bool generatedInEditor = false;
 
-    private class Room
+    public List<Room> Rooms => rooms;
+
+    private void Start()
     {
-        public int x, y, width, height;
-        public Vector2Int Center => new Vector2Int(x + width / 2, y + height / 2);
-        public Room(int x, int y, int w, int h) { this.x = x; this.y = y; width = w; height = h; }
+        SpawnPlayerAndEnemies();
     }
 
-    private List<Room> rooms;
-    [HideInInspector] public GameObject spawnedPlayer;
-    private Transform tilesParent;
-    [HideInInspector] public Dictionary<Vector2Int, GameObject> spawnedTiles = new Dictionary<Vector2Int, GameObject>();
+    // ---------------------------
+    // PLAYER & ENEMY SPAWNING
+    // ---------------------------
+    public void SpawnPlayerAndEnemies()
+    {
+        if (rooms == null || rooms.Count == 0)
+            GenerateDungeon();
+
+        // Spawn Player
+        if (playerPrefab != null)
+        {
+            Room startRoom = rooms[0];
+            Vector3 spawnPos = new Vector3(startRoom.Center.x, startRoom.Center.y, -0.1f);
+            spawnedPlayer = Instantiate(playerPrefab, spawnPos, Quaternion.identity, transform);
+            spawnedPlayer.name = "Player";
+        }
+
+        // Spawn Enemies
+        if (enemyPrefab != null)
+        {
+            for (int i = 0; i < enemyCount; i++)
+            {
+                Room randomRoom;
+                do
+                {
+                    randomRoom = rooms[Random.Range(1, rooms.Count)];
+                } while (Vector2Int.Distance(randomRoom.Center, rooms[0].Center) < Mathf.Max(width, height) / 3);
+
+                Vector3 spawnPos = new Vector3(randomRoom.Center.x, randomRoom.Center.y, -0.1f);
+                GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity, transform);
+                enemy.name = $"Minotaur_{i + 1}";
+
+                MinotaurAI ai = enemy.GetComponent<MinotaurAI>();
+                if (ai != null)
+                {
+                    ai.dungeonGenerator = this;
+                    ai.player = spawnedPlayer?.transform;
+                }
+
+                TileFog fog = enemy.GetComponent<TileFog>();
+                if (fog == null) fog = enemy.AddComponent<TileFog>();
+
+                fog.fadeMultiplier = 1.2f;
+                fog.distanceOffset = 1f;
+
+                if (spawnedPlayer != null)
+                {
+                    LightSource playerLight = spawnedPlayer.GetComponent<LightSource>();
+                    if (playerLight != null)
+                        fog.SetLightSources(new List<LightSource> { playerLight });
+                }
+            }
+        }
+
+        // Assign lights to tiles
+        if (tilesParent != null)
+        {
+            TileFog[] tileFogs = tilesParent.GetComponentsInChildren<TileFog>();
+            if (tileFogs.Length > 0 && spawnedPlayer != null)
+            {
+                LightSource playerLight = spawnedPlayer.GetComponent<LightSource>();
+                if (playerLight != null)
+                {
+                    foreach (var tile in tileFogs)
+                        tile.SetLightSources(new List<LightSource> { playerLight });
+                }
+            }
+        }
+    }
 
     // ---------------------------
-    // GENERATION
+    // DUNGEON GENERATION
     // ---------------------------
     public void GenerateDungeon()
     {
@@ -52,7 +121,7 @@ public class DungeonGenerator : MonoBehaviour
 
         dungeon = new TileType[width, height];
 
-        // Fill all with walls
+        // Fill walls
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
                 dungeon[x, y] = TileType.Wall;
@@ -61,110 +130,84 @@ public class DungeonGenerator : MonoBehaviour
         SurroundFloorsWithWalls();
         ForceEdgeWalls();
         RenderDungeon();
-        SpawnPlayer();
     }
 
-    // ---------------------------
-    // BSP GENERATION
-    // ---------------------------
-    void GenerateBSP()
+    private void GenerateBSP()
     {
         rooms = new List<Room>();
         SubdivideWithRooms(0, 0, width, height, 5);
         ConnectRooms();
     }
 
-    void SubdivideWithRooms(int x, int y, int w, int h, int depth)
+    private void SubdivideWithRooms(int x, int y, int w, int h, int depth)
     {
-        int minRoomSize = 3;
-        int padding = 1;
-        int minRegionSize = (minRoomSize + padding) * 2;
-
-        if (depth <= 0 || w <= minRegionSize || h <= minRegionSize)
+        if (depth <= 0 || w <= 6 || h <= 6)
         {
-            int maxRoomWidth = Mathf.Max(minRoomSize, w - 2 * padding);
-            int maxRoomHeight = Mathf.Max(minRoomSize, h - 2 * padding);
+            int roomWidth = Random.Range(3, Mathf.Max(4, w - 2));
+            int roomHeight = Random.Range(3, Mathf.Max(4, h - 2));
+            int roomX = x + Random.Range(0, Mathf.Max(1, w - roomWidth));
+            int roomY = y + Random.Range(0, Mathf.Max(1, h - roomHeight));
 
-            if (maxRoomWidth >= minRoomSize && maxRoomHeight >= minRoomSize)
-            {
-                int roomWidth = Random.Range(minRoomSize, maxRoomWidth + 1);
-                int roomHeight = Random.Range(minRoomSize, maxRoomHeight + 1);
-
-                int roomX = x + Random.Range(padding, Mathf.Max(padding + 1, w - roomWidth - padding + 1));
-                int roomY = y + Random.Range(padding, Mathf.Max(padding + 1, h - roomHeight - padding + 1));
-
-                CarveRoom(roomX, roomY, roomWidth, roomHeight);
-                rooms.Add(new Room(roomX, roomY, roomWidth, roomHeight));
-            }
+            CarveRoom(roomX, roomY, roomWidth, roomHeight);
+            rooms.Add(new Room(roomX, roomY, roomWidth, roomHeight));
             return;
         }
 
-        // Split region — horizontal or vertical
         if (w > h)
         {
-            int split = Random.Range(minRoomSize + padding + 1, w - minRoomSize - padding - 1);
+            int split = Random.Range(3, w - 3);
             SubdivideWithRooms(x, y, split, h, depth - 1);
             SubdivideWithRooms(x + split, y, w - split, h, depth - 1);
         }
         else
         {
-            int split = Random.Range(minRoomSize + padding + 1, h - minRoomSize - padding - 1);
+            int split = Random.Range(3, h - 3);
             SubdivideWithRooms(x, y, w, split, depth - 1);
             SubdivideWithRooms(x, y + split, w, h - split, depth - 1);
         }
     }
 
-    void CarveRoom(int x, int y, int w, int h)
+    private void CarveRoom(int x, int y, int w, int h)
     {
         for (int i = x; i < x + w; i++)
             for (int j = y; j < y + h; j++)
                 SetFloorSafe(i, j);
     }
 
-    void ConnectRooms()
+    private void ConnectRooms()
     {
         for (int i = 1; i < rooms.Count; i++)
         {
             Vector2Int prev = rooms[i - 1].Center;
             Vector2Int curr = rooms[i].Center;
-
-            int corridorThickness = Random.Range(3, 5); // 3–4 wide corridors
+            int thickness = 4;
 
             if (Random.value < 0.5f)
-                CarveCorridor(prev, curr, corridorThickness);
+                CarveCorridor(prev, curr, thickness);
             else
-                CarveCorridor(curr, prev, corridorThickness);
+                CarveCorridor(curr, prev, thickness);
         }
     }
 
-    void CarveCorridor(Vector2Int start, Vector2Int end, int thickness)
+    private void CarveCorridor(Vector2Int start, Vector2Int end, int thickness)
     {
-        int x0 = start.x;
-        int y0 = start.y;
-        int x1 = end.x;
-        int y1 = end.y;
-
+        int x0 = start.x, y0 = start.y;
+        int x1 = end.x, y1 = end.y;
         int dx = x1 >= x0 ? 1 : -1;
         int dy = y1 >= y0 ? 1 : -1;
-        int offset = -(thickness / 2);
 
-        // --- Horizontal segment ---
+        // Horizontal
         for (int x = x0; x != x1 + dx; x += dx)
             for (int t = 0; t < thickness; t++)
-                SetFloorSafe(x, y0 + offset + t);
+                SetFloorSafe(x, y0 + t);
 
-        // Optional smoothing corner
-        for (int ix = -1; ix <= 1; ix++)
-            for (int iy = -1; iy <= 1; iy++)
-                SetFloorSafe(x1 + ix, y0 + iy);
-
-        // --- Vertical segment ---
+        // Vertical
         for (int y = y0; y != y1 + dy; y += dy)
             for (int t = 0; t < thickness; t++)
-                SetFloorSafe(x1 + offset + t, y);
+                SetFloorSafe(x1 + t, y);
     }
 
-    void SetFloorSafe(int x, int y)
+    private void SetFloorSafe(int x, int y)
     {
         if (x >= 0 && y >= 0 && x < width && y < height)
             dungeon[x, y] = TileType.Floor;
@@ -173,7 +216,7 @@ public class DungeonGenerator : MonoBehaviour
     // ---------------------------
     // WALLS
     // ---------------------------
-    void SurroundFloorsWithWalls()
+    private void SurroundFloorsWithWalls()
     {
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         for (int x = 0; x < width; x++)
@@ -201,24 +244,16 @@ public class DungeonGenerator : MonoBehaviour
         dungeon = newDungeon;
     }
 
-    void ForceEdgeWalls()
+    private void ForceEdgeWalls()
     {
-        for (int x = 0; x < width; x++)
-        {
-            dungeon[x, 0] = TileType.Wall;
-            dungeon[x, height - 1] = TileType.Wall;
-        }
-        for (int y = 0; y < height; y++)
-        {
-            dungeon[0, y] = TileType.Wall;
-            dungeon[width - 1, y] = TileType.Wall;
-        }
+        for (int x = 0; x < width; x++) { dungeon[x, 0] = TileType.Wall; dungeon[x, height - 1] = TileType.Wall; }
+        for (int y = 0; y < height; y++) { dungeon[0, y] = TileType.Wall; dungeon[width - 1, y] = TileType.Wall; }
     }
 
     // ---------------------------
-    // RENDERING
+    // TILE SPAWNING
     // ---------------------------
-    void RenderDungeon()
+    private void RenderDungeon()
     {
         if (tilesParent == null)
         {
@@ -233,29 +268,30 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
 
-        foreach (Transform t in tilesParent)
-#if UNITY_EDITOR
-            if (!Application.isPlaying) DestroyImmediate(t.gameObject); else Destroy(t.gameObject);
-#else
-            Destroy(t.gameObject);
-#endif
+        if (tilesParent.childCount > 0 && (!generatedInEditor || !Application.isPlaying))
+        {
+            Transform[] children = new Transform[tilesParent.childCount];
+            for (int i = 0; i < tilesParent.childCount; i++)
+                children[i] = tilesParent.GetChild(i);
 
-        spawnedTiles.Clear();
+            foreach (Transform t in children)
+#if UNITY_EDITOR
+                DestroyImmediate(t.gameObject);
+#else
+                Destroy(t.gameObject);
+#endif
+        }
 
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
             {
-                Vector3 pos = new Vector3(x, y, 0f);
-                Vector2Int gridPos = new Vector2Int(x, y);
-
-                if (dungeon[x, y] == TileType.Floor)
-                    SpawnWeightedTile(floorTiles, pos, gridPos, 0);
-                else
-                    SpawnWeightedTile(wallTiles, pos, gridPos, 1);
+                Vector3 pos = new Vector3(x, y, 0);
+                if (dungeon[x, y] == TileType.Floor) SpawnWeightedTile(floorTiles, pos);
+                else SpawnWeightedTile(wallTiles, pos);
             }
     }
 
-    void SpawnWeightedTile(List<WeightedTile> tiles, Vector3 pos, Vector2Int gridPos, int orderInLayer)
+    private void SpawnWeightedTile(List<WeightedTile> tiles, Vector3 pos)
     {
         if (tiles.Count == 0) return;
 
@@ -270,54 +306,26 @@ public class DungeonGenerator : MonoBehaviour
             cumulative += t.spawnChance;
             if (r <= cumulative)
             {
-#if UNITY_EDITOR
-                GameObject obj;
-                if (!Application.isPlaying)
-                    obj = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(t.prefab, tilesParent) as GameObject;
-                else
-                    obj = Instantiate(t.prefab, tilesParent);
-#else
                 GameObject obj = Instantiate(t.prefab, tilesParent);
-#endif
                 obj.transform.localPosition = pos;
                 obj.transform.localScale = Vector3.one;
 
-                if (obj.GetComponent<TileFog>() == null)
-                    obj.AddComponent<TileFog>();
+                TileFog fog = obj.GetComponent<TileFog>();
+                if (fog == null) fog = obj.AddComponent<TileFog>();
 
-                SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
-                if (sr != null) sr.sortingOrder = orderInLayer;
+                fog.fadeMultiplier = 1f;
+                fog.distanceOffset = 0f;
 
-                spawnedTiles[gridPos] = obj;
+                if (spawnedPlayer != null)
+                {
+                    LightSource playerLight = spawnedPlayer.GetComponent<LightSource>();
+                    if (playerLight != null)
+                        fog.SetLightSources(new List<LightSource> { playerLight });
+                }
+
                 return;
             }
         }
-    }
-
-    // ---------------------------
-    // PLAYER
-    // ---------------------------
-    public void SpawnPlayer()
-    {
-        if (playerPrefab == null || rooms == null || rooms.Count == 0) return;
-
-        Room rootRoom = rooms[0];
-        Vector3 spawnPos = new Vector3(rootRoom.Center.x, rootRoom.Center.y, -0.1f);
-
-        if (spawnedPlayer != null)
-#if UNITY_EDITOR
-            if (!Application.isPlaying) DestroyImmediate(spawnedPlayer); else Destroy(spawnedPlayer);
-#else
-            Destroy(spawnedPlayer);
-#endif
-
-        spawnedPlayer = Instantiate(playerPrefab, spawnPos, Quaternion.identity, transform);
-        spawnedPlayer.transform.localScale = Vector3.one;
-        SpriteRenderer sr = spawnedPlayer.GetComponent<SpriteRenderer>();
-        if (sr != null) sr.sortingOrder = 2;
-
-        if (spawnedPlayer.GetComponent<LightSource>() == null)
-            spawnedPlayer.AddComponent<LightSource>();
     }
 
     // ---------------------------
@@ -327,28 +335,32 @@ public class DungeonGenerator : MonoBehaviour
     {
         if (tilesParent != null)
         {
-            while (tilesParent.childCount > 0)
-            {
+            Transform[] children = new Transform[tilesParent.childCount];
+            for (int i = 0; i < tilesParent.childCount; i++)
+                children[i] = tilesParent.GetChild(i);
+
+            foreach (Transform t in children)
 #if UNITY_EDITOR
-                if (!Application.isPlaying) DestroyImmediate(tilesParent.GetChild(0).gameObject);
-                else Destroy(tilesParent.GetChild(0).gameObject);
+                DestroyImmediate(t.gameObject);
 #else
-                Destroy(tilesParent.GetChild(0).gameObject);
+                Destroy(t.gameObject);
 #endif
-            }
         }
 
-        spawnedTiles.Clear();
         dungeon = new TileType[width, height];
+        rooms = new List<Room>();
+        spawnedPlayer = null;
+        generatedInEditor = false;
+    }
 
-        if (spawnedPlayer != null)
-        {
-#if UNITY_EDITOR
-            if (!Application.isPlaying) DestroyImmediate(spawnedPlayer);
-            else Destroy(spawnedPlayer);
-#else
-            Destroy(spawnedPlayer);
-#endif
-        }
+    // ---------------------------
+    // ROOM CLASS
+    // ---------------------------
+    [System.Serializable]
+    public class Room
+    {
+        public int x, y, width, height;
+        public Vector2Int Center => new Vector2Int(x + width / 2, y + height / 2);
+        public Room(int x, int y, int w, int h) { this.x = x; this.y = y; width = w; height = h; }
     }
 }
