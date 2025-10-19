@@ -31,8 +31,8 @@ public class DungeonGenerator : MonoBehaviour
         public Vector2Int Center => new Vector2Int(x + width / 2, y + height / 2);
         public Room(int x, int y, int w, int h) { this.x = x; this.y = y; width = w; height = h; }
     }
-    private List<Room> rooms;
 
+    private List<Room> rooms;
     [HideInInspector] public GameObject spawnedPlayer;
     private Transform tilesParent;
     [HideInInspector] public Dictionary<Vector2Int, GameObject> spawnedTiles = new Dictionary<Vector2Int, GameObject>();
@@ -42,7 +42,7 @@ public class DungeonGenerator : MonoBehaviour
     // ---------------------------
     public void GenerateDungeon()
     {
-        ClearDungeon(); // Clear previous dungeon completely
+        ClearDungeon();
 
         width = Mathf.Max(width, minSize);
         height = Mathf.Max(height, minSize);
@@ -76,27 +76,39 @@ public class DungeonGenerator : MonoBehaviour
 
     void SubdivideWithRooms(int x, int y, int w, int h, int depth)
     {
-        if (depth <= 0 || w <= 4 || h <= 4)
-        {
-            int roomWidth = Random.Range(3, w);
-            int roomHeight = Random.Range(3, h);
-            int roomX = x + Random.Range(0, w - roomWidth + 1);
-            int roomY = y + Random.Range(0, h - roomHeight + 1);
+        int minRoomSize = 3;
+        int padding = 1;
+        int minRegionSize = (minRoomSize + padding) * 2;
 
-            CarveRoom(roomX, roomY, roomWidth, roomHeight);
-            rooms.Add(new Room(roomX, roomY, roomWidth, roomHeight));
+        if (depth <= 0 || w <= minRegionSize || h <= minRegionSize)
+        {
+            int maxRoomWidth = Mathf.Max(minRoomSize, w - 2 * padding);
+            int maxRoomHeight = Mathf.Max(minRoomSize, h - 2 * padding);
+
+            if (maxRoomWidth >= minRoomSize && maxRoomHeight >= minRoomSize)
+            {
+                int roomWidth = Random.Range(minRoomSize, maxRoomWidth + 1);
+                int roomHeight = Random.Range(minRoomSize, maxRoomHeight + 1);
+
+                int roomX = x + Random.Range(padding, Mathf.Max(padding + 1, w - roomWidth - padding + 1));
+                int roomY = y + Random.Range(padding, Mathf.Max(padding + 1, h - roomHeight - padding + 1));
+
+                CarveRoom(roomX, roomY, roomWidth, roomHeight);
+                rooms.Add(new Room(roomX, roomY, roomWidth, roomHeight));
+            }
             return;
         }
 
+        // Split region — horizontal or vertical
         if (w > h)
         {
-            int split = Random.Range(2, w - 2);
+            int split = Random.Range(minRoomSize + padding + 1, w - minRoomSize - padding - 1);
             SubdivideWithRooms(x, y, split, h, depth - 1);
             SubdivideWithRooms(x + split, y, w - split, h, depth - 1);
         }
         else
         {
-            int split = Random.Range(2, h - 2);
+            int split = Random.Range(minRoomSize + padding + 1, h - minRoomSize - padding - 1);
             SubdivideWithRooms(x, y, w, split, depth - 1);
             SubdivideWithRooms(x, y + split, w, h - split, depth - 1);
         }
@@ -116,7 +128,7 @@ public class DungeonGenerator : MonoBehaviour
             Vector2Int prev = rooms[i - 1].Center;
             Vector2Int curr = rooms[i].Center;
 
-            int corridorThickness = Random.Range(2, 4);
+            int corridorThickness = Random.Range(3, 5); // 3–4 wide corridors
 
             if (Random.value < 0.5f)
                 CarveCorridor(prev, curr, corridorThickness);
@@ -134,16 +146,22 @@ public class DungeonGenerator : MonoBehaviour
 
         int dx = x1 >= x0 ? 1 : -1;
         int dy = y1 >= y0 ? 1 : -1;
+        int offset = -(thickness / 2);
 
-        // Horizontal segment
+        // --- Horizontal segment ---
         for (int x = x0; x != x1 + dx; x += dx)
             for (int t = 0; t < thickness; t++)
-                SetFloorSafe(x, y0 + t);
+                SetFloorSafe(x, y0 + offset + t);
 
-        // Vertical segment
+        // Optional smoothing corner
+        for (int ix = -1; ix <= 1; ix++)
+            for (int iy = -1; iy <= 1; iy++)
+                SetFloorSafe(x1 + ix, y0 + iy);
+
+        // --- Vertical segment ---
         for (int y = y0; y != y1 + dy; y += dy)
             for (int t = 0; t < thickness; t++)
-                SetFloorSafe(x1 + t, y);
+                SetFloorSafe(x1 + offset + t, y);
     }
 
     void SetFloorSafe(int x, int y)
@@ -171,15 +189,12 @@ public class DungeonGenerator : MonoBehaviour
                 for (int dy = -1; dy <= 1; dy++)
                 {
                     if (dx == 0 && dy == 0) continue;
-
                     int nx = pos.x + dx;
                     int ny = pos.y + dy;
 
                     if (nx >= 0 && ny >= 0 && nx < width && ny < height)
-                    {
                         if (!floorPositions.Contains(new Vector2Int(nx, ny)))
                             newDungeon[nx, ny] = TileType.Wall;
-                    }
                 }
         }
 
@@ -310,7 +325,6 @@ public class DungeonGenerator : MonoBehaviour
     // ---------------------------
     public void ClearDungeon()
     {
-        // Destroy all children of the tiles parent
         if (tilesParent != null)
         {
             while (tilesParent.childCount > 0)
@@ -319,25 +333,21 @@ public class DungeonGenerator : MonoBehaviour
                 if (!Application.isPlaying) DestroyImmediate(tilesParent.GetChild(0).gameObject);
                 else Destroy(tilesParent.GetChild(0).gameObject);
 #else
-            Destroy(tilesParent.GetChild(0).gameObject);
+                Destroy(tilesParent.GetChild(0).gameObject);
 #endif
             }
         }
 
-        // Clear dictionary
         spawnedTiles.Clear();
-
-        // Reset dungeon array
         dungeon = new TileType[width, height];
 
-        // Destroy player
         if (spawnedPlayer != null)
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying) DestroyImmediate(spawnedPlayer);
             else Destroy(spawnedPlayer);
 #else
-        Destroy(spawnedPlayer);
+            Destroy(spawnedPlayer);
 #endif
         }
     }
