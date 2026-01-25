@@ -4,9 +4,10 @@ using System.Collections.Generic;
 public class DungeonGenerator : MonoBehaviour
 {
     [Header("Dungeon Size")]
-    [Range(25, 150)] public int width = 50;
-    [Range(25, 150)] public int height = 50;
-    private const int minSize = 25;
+    [Range(5, 150)] public int width = 50;
+    [Range(5, 150)] public int height = 50;
+    
+    const int MIN_SIZE = 5;
 
     [Header("Tiles")]
     public List<WeightedTile> floorTiles;
@@ -113,8 +114,8 @@ public class DungeonGenerator : MonoBehaviour
     {
         ClearDungeon();
 
-        width = Mathf.Max(width, minSize);
-        height = Mathf.Max(height, minSize);
+        width = Mathf.Max(width, MIN_SIZE);
+        height = Mathf.Max(height, MIN_SIZE);
 
         if (useRandomSeed) seed = Random.Range(int.MinValue, int.MaxValue);
         Random.InitState(seed);
