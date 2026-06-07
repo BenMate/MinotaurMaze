@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2710337561241210125}
   - component: {fileID: 4186574174894371708}
-  - component: {fileID: 1538795022337016936}
   - component: {fileID: -9036907928985128600}
   m_Layer: 0
   m_Name: Wall_Hole
@@ -89,21 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1538795022337016936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3777729434527007523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b19a3770450912a4d941d1e24ac95b0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sr: {fileID: 4186574174894371708}
-  fadeMultiplier: 0.46
-  distanceOffset: 0
 --- !u!61 &-9036907928985128600
 BoxCollider2D:
   m_ObjectHideFlags: 0

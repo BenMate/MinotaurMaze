@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4886822877113981034}
   - component: {fileID: 2712059858510704048}
-  - component: {fileID: 3775437971032744186}
   - component: {fileID: -8698084789967236302}
   m_Layer: 0
   m_Name: Wall_Cracked
@@ -89,21 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3775437971032744186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2110993355929470745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b19a3770450912a4d941d1e24ac95b0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sr: {fileID: 2712059858510704048}
-  fadeMultiplier: 0.46
-  distanceOffset: 0
 --- !u!61 &-8698084789967236302
 BoxCollider2D:
   m_ObjectHideFlags: 0

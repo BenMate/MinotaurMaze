@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5098908600682128734}
   - component: {fileID: 2835649851367375997}
-  - component: {fileID: 4800718643857323577}
   m_Layer: 0
   m_Name: Floor_mossy
   m_TagString: Untagged
@@ -88,18 +87,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4800718643857323577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 133208855339285773}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b19a3770450912a4d941d1e24ac95b0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sr: {fileID: 2835649851367375997}
-  fadeMultiplier: 0.46
-  distanceOffset: 0
