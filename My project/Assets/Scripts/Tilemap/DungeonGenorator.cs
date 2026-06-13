@@ -72,7 +72,7 @@ public class DungeonGenerator : MonoBehaviour
                 MinotaurAI ai = enemy.GetComponent<MinotaurAI>();
                 if (ai != null)
                 {
-                    ai.dungeonGenerator = this;
+                    //ai.dungeonGenerator = this;
                     ai.player = spawnedPlayer?.transform;
                 }
 

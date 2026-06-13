@@ -1,290 +1,230 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.AI;
 
 public class MinotaurAI : MonoBehaviour
 {
-    [Header("AI Settings")]
-    public float moveSpeed = 3f;
+    public enum State
+    {
+        Wander,
+        Hunt,
+        Search,
+        Investigate
+    }
+
+    [Header("References")]
+    public Transform player;
+
+    [Header("Vision")]
     public float sightRange = 10f;
+    public float forgetTime = 5f;
 
-    [HideInInspector] public DungeonGenerator dungeonGenerator;
-    [HideInInspector] public Transform player;
+    [Header("Wander")]
+    public float wanderRadius = 10f;
+    public float wanderWaitTime = 2f;
 
-    private Vector2Int gridPos;
-    private string state = "Wander";
+    [Header("Search")]
+    public float searchDuration = 6f;
+    public float searchRadius = 4f;
 
-    private List<Vector2Int> currentPath = new List<Vector2Int>();
+    private State currentState;
+
+    private Vector3 lastKnownPlayerPos;
+    private Vector3 investigationPos;
+
+    private float lastSeenTime;
+    private float stateTimer;
+
+    private bool canSeePlayer;
+
+    private NavMeshAgent agent;
+
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+    }
 
     void Start()
     {
-        gridPos = WorldToGrid(transform.position);
-        StartCoroutine(AIMovementLoop());
+        ChangeState(State.Wander);
     }
 
-    IEnumerator AIMovementLoop()
+    void Update()
     {
-        Vector2Int lastKnownPlayerPos = gridPos;
+        UpdateVision();
 
-        while (true)
+        switch (currentState)
         {
-            Vector2Int nextTile = gridPos;
-
-            // ------------------- CHASE -------------------
-            if (state == "Chase" && player != null)
-            {
-                Vector2Int playerPos = WorldToGrid(player.position);
-                float dist = Vector2Int.Distance(gridPos, playerPos);
-
-                if (dist <= sightRange)
-                {
-                    // Player in sight: update last known position
-                    lastKnownPlayerPos = playerPos;
-
-                    // Update path dynamically
-                    if (currentPath == null || currentPath.Count <= 1 || currentPath[currentPath.Count - 1] != playerPos)
-                        currentPath = FindPath(gridPos, playerPos);
-
-                    if (currentPath != null && currentPath.Count > 1)
-                    {
-                        nextTile = currentPath[1];
-                        currentPath.RemoveAt(0);
-                    }
-                }
-                else
-                {
-                    // Player out of sight: finish moving to last known position
-                    if (currentPath == null || currentPath.Count <= 1 || currentPath[currentPath.Count - 1] != lastKnownPlayerPos)
-                        currentPath = FindPath(gridPos, lastKnownPlayerPos);
-
-                    if (currentPath != null && currentPath.Count > 1)
-                    {
-                        nextTile = currentPath[1];
-                        currentPath.RemoveAt(0);
-                    }
-                    else
-                    {
-                        // Reached last known location, switch to wander
-                        state = "Wander";
-                        currentPath = null;
-                    }
-                }
-            }
-
-            // ------------------- WANDER -------------------
-            else if (state == "Wander")
-            {
-                if (currentPath == null || currentPath.Count <= 1)
-                {
-                    DungeonGenerator.Room room = GetRandomRoomAwayFromCurrent();
-                    if (room != null)
-                    {
-                        // Collect all tiles where 3x3 Minotaur can fit
-                        List<Vector2Int> safeTiles = new List<Vector2Int>();
-                        Dictionary<Vector2Int, float> distanceToCenter = new Dictionary<Vector2Int, float>();
-
-                        for (int x = room.x; x < room.x + room.width; x++)
-                            for (int y = room.y; y < room.y + room.height; y++)
-                            {
-                                Vector2Int tile = new Vector2Int(x, y);
-                                if (CanFit(tile))
-                                {
-                                    safeTiles.Add(tile);
-                                    distanceToCenter[tile] = Vector2Int.Distance(tile, room.Center);
-                                }
-                            }
-
-                        if (safeTiles.Count > 0)
-                        {
-                            safeTiles.Sort((a, b) => distanceToCenter[a].CompareTo(distanceToCenter[b]));
-                            int topCount = Mathf.Max(1, safeTiles.Count / 3);
-                            Vector2Int targetTile = safeTiles[Random.Range(0, topCount)];
-
-                            currentPath = FindPath(gridPos, targetTile);
-                        }
-                    }
-                }
-
-                if (currentPath != null && currentPath.Count > 1)
-                {
-                    nextTile = currentPath[1];
-                    currentPath.RemoveAt(0);
-                }
-
-                // Check if player comes into sight while wandering
-                if (player != null && Vector2Int.Distance(gridPos, WorldToGrid(player.position)) <= sightRange)
-                {
-                    state = "Chase";
-                    currentPath = null;
-                }
-            }
-
-            // ------------------- MOVE -------------------
-            if (nextTile != gridPos)
-                yield return MoveTileSmooth(nextTile);
-            else
-                yield return null;
-        }
-    }
-
-    IEnumerator MoveTileSmooth(Vector2Int targetTile)
-    {
-        Vector3 start = transform.position;
-        Vector3 end = GridToWorld(targetTile);
-        float t = 0f;
-        float distance = Vector3.Distance(start, end);
-        float speed = moveSpeed / distance;
-
-        while (t < 1f)
-        {
-            t += Time.deltaTime * speed;
-            transform.position = Vector3.Lerp(start, end, t);
-            gridPos = Vector2Int.RoundToInt(transform.position);
-
-            // While moving, if in chase, update path dynamically
-            if (state == "Chase" && player != null)
-            {
-                Vector2Int playerPos = WorldToGrid(player.position);
-                if (Vector2Int.Distance(gridPos, playerPos) <= sightRange)
-                {
-                    currentPath = FindPath(gridPos, playerPos);
-                }
-            }
-
-            yield return null;
-        }
-
-        transform.position = end;
-        gridPos = targetTile;
-    }
-
-    Vector2Int WorldToGrid(Vector3 pos) => Vector2Int.RoundToInt(pos);
-    Vector3 GridToWorld(Vector2Int grid) => new Vector3(grid.x, grid.y, -0.1f);
-
-    private DungeonGenerator.Room GetRandomRoomAwayFromCurrent()
-    {
-        if (dungeonGenerator == null || dungeonGenerator.Rooms.Count == 0) return null;
-
-        DungeonGenerator.Room currentRoom = null;
-        foreach (var room in dungeonGenerator.Rooms)
-        {
-            if (gridPos.x >= room.x && gridPos.x < room.x + room.width &&
-                gridPos.y >= room.y && gridPos.y < room.y + room.height)
-            {
-                currentRoom = room;
+            case State.Wander:
+                WanderUpdate();
                 break;
-            }
+
+            case State.Hunt:
+                HuntUpdate();
+                break;
+
+            case State.Search:
+                SearchUpdate();
+                break;
+
+            case State.Investigate:
+                InvestigateUpdate();
+                break;
         }
 
-        List<DungeonGenerator.Room> candidates = new List<DungeonGenerator.Room>();
-        foreach (var room in dungeonGenerator.Rooms)
-        {
-            if (room != currentRoom)
-                candidates.Add(room);
-        }
-
-        if (candidates.Count == 0) return currentRoom;
-
-        return candidates[Random.Range(0, candidates.Count)];
+        StateTransitions();
     }
 
-    bool CanFit(Vector2Int pos)
+    void LateUpdate()
     {
-        // Ensure a 3x3 space for the Minotaur fits within dungeon bounds and floor
-        for (int dx = -1; dx <= 1; dx++)
-            for (int dy = -1; dy <= 1; dy++)
+        // HARD LOCK 2D PLANE
+        Vector3 p = transform.position;
+        transform.position = new Vector3(p.x, p.y, 0f);
+    }
+
+    // ---------------- VISION ----------------
+
+    void UpdateVision()
+    {
+        if (player == null) return;
+
+        float dist = Vector3.Distance(transform.position, player.position);
+
+        canSeePlayer = dist <= sightRange;
+
+        if (canSeePlayer)
+        {
+            lastKnownPlayerPos = player.position;
+            lastSeenTime = Time.time;
+        }
+    }
+
+    // ---------------- STATES ----------------
+
+    void WanderUpdate()
+    {
+        if (!agent.hasPath || agent.remainingDistance < 0.5f)
+        {
+            Vector3 target = GetSafeRandomPoint(transform.position, wanderRadius);
+            SetSafeDestination(target);
+
+            stateTimer = wanderWaitTime;
+        }
+    }
+
+    void HuntUpdate()
+    {
+        if (player == null) return;
+
+        SetSafeDestination(player.position);
+    }
+
+    void SearchUpdate()
+    {
+        if (!agent.hasPath || agent.remainingDistance < 0.5f)
+        {
+            if (stateTimer <= 0)
             {
-                Vector2Int check = new Vector2Int(pos.x + dx, pos.y + dy);
-                if (!IsWalkable(check)) return false;
+                ChangeState(State.Wander);
+                return;
             }
-        return true;
+
+            Vector3 target = GetSafeRandomPoint(lastKnownPlayerPos, searchRadius);
+            SetSafeDestination(target);
+
+            stateTimer -= Time.deltaTime;
+        }
     }
 
-    List<Vector2Int> FindPath(Vector2Int start, Vector2Int goal)
+    void InvestigateUpdate()
     {
-        var open = new List<Vector2Int> { start };
-        var cameFrom = new Dictionary<Vector2Int, Vector2Int>();
-        var gScore = new Dictionary<Vector2Int, int> { [start] = 0 };
-        var fScore = new Dictionary<Vector2Int, int> { [start] = Heuristic(start, goal) };
+        SetSafeDestination(investigationPos);
 
-        while (open.Count > 0)
+        if (!agent.pathPending && agent.remainingDistance < 0.5f)
         {
-            open.Sort((a, b) => fScore[a].CompareTo(fScore[b]));
-            var current = open[0];
-            if (current == goal) return ReconstructPath(cameFrom, current);
+            ChangeState(State.Search);
+        }
+    }
 
-            open.RemoveAt(0);
+    // ---------------- STATE LOGIC ----------------
 
-            foreach (var neighbor in GetNeighbors(current))
-            {
-                if (!IsWalkable(neighbor)) continue;
-                int tentativeG = gScore[current] + 1;
-                if (!gScore.ContainsKey(neighbor) || tentativeG < gScore[neighbor])
-                {
-                    cameFrom[neighbor] = current;
-                    gScore[neighbor] = tentativeG;
-                    fScore[neighbor] = tentativeG + Heuristic(neighbor, goal);
-                    if (!open.Contains(neighbor)) open.Add(neighbor);
-                }
-            }
+    void StateTransitions()
+    {
+        if (canSeePlayer)
+        {
+            ChangeState(State.Hunt);
+            return;
         }
 
-        return null;
-    }
-
-    int Heuristic(Vector2Int a, Vector2Int b) => Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
-
-    List<Vector2Int> GetNeighbors(Vector2Int pos)
-    {
-        return new List<Vector2Int>
+        if (!canSeePlayer && currentState == State.Hunt)
         {
-            pos + Vector2Int.up,
-            pos + Vector2Int.down,
-            pos + Vector2Int.left,
-            pos + Vector2Int.right
-        };
-    }
-
-    List<Vector2Int> ReconstructPath(Dictionary<Vector2Int, Vector2Int> cameFrom, Vector2Int current)
-    {
-        var total = new List<Vector2Int> { current };
-        while (cameFrom.ContainsKey(current))
-        {
-            current = cameFrom[current];
-            total.Insert(0, current);
-        }
-        return total;
-    }
-
-    bool IsWalkable(Vector2Int pos)
-    {
-        if (dungeonGenerator == null) return false;
-        if (pos.x < 0 || pos.y < 0 || pos.x >= dungeonGenerator.width || pos.y >= dungeonGenerator.height)
-            return false;
-        return dungeonGenerator.dungeon[pos.x, pos.y] == DungeonGenerator.TileType.Floor;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (gridPos == null) return;
-
-        // Draw AI position
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(GridToWorld(gridPos), 0.3f);
-
-        // Draw path tiles as circles
-        if (currentPath != null)
-        {
-            Gizmos.color = state == "Chase" ? Color.blue : Color.yellow;
-            foreach (var tile in currentPath)
-                Gizmos.DrawSphere(GridToWorld(tile), 0.2f);
+            ChangeState(State.Search);
+            stateTimer = searchDuration;
+            return;
         }
 
-        // Draw line to player if chasing
-        if (state == "Chase" && player != null)
+        if (Time.time - lastSeenTime > forgetTime && currentState == State.Search)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(GridToWorld(gridPos), player.position);
+            ChangeState(State.Wander);
         }
+    }
+
+    void ChangeState(State newState)
+    {
+        if (currentState == newState) return;
+
+        currentState = newState;
+
+        if (newState == State.Search)
+            stateTimer = searchDuration;
+    }
+
+    // ---------------- SAFE NAV HELPERS ----------------
+
+    void SetSafeDestination(Vector3 target)
+    {
+        if (TryGetNavMeshPoint(target, out Vector3 safe))
+        {
+            agent.SetDestination(safe);
+        }
+    }
+
+    Vector3 GetSafeRandomPoint(Vector3 origin, float radius)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            Vector3 randomPoint = origin + Random.insideUnitSphere * radius;
+
+            if (TryGetNavMeshPoint(randomPoint, out Vector3 hit))
+                return hit;
+        }
+
+        return origin; // fallback safety
+    }
+
+    bool TryGetNavMeshPoint(Vector3 source, out Vector3 result)
+    {
+        NavMeshHit hit;
+
+        bool success = NavMesh.SamplePosition(source, out hit, 2f, NavMesh.AllAreas);
+
+        if (success)
+        {
+            result = hit.position;
+            return true;
+        }
+
+        result = source;
+        return false;
+    }
+
+    // ---------------- NOISE SYSTEM ----------------
+
+    public void TriggerNoise(Vector3 position)
+    {
+        investigationPos = position;
+        ChangeState(State.Investigate);
     }
 }
