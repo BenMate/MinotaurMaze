@@ -15,8 +15,10 @@ public class MinotaurAI : MonoBehaviour
     public Transform player;
 
     [Header("Vision")]
-    public float sightRange = 10f;
+    public float sightRange = 12f;
+    public float closeAwarenessRange = 4f;
     public float forgetTime = 5f;
+    public LayerMask wallMask;
 
     [Header("Wander")]
     public float wanderRadius = 10f;
@@ -42,6 +44,7 @@ public class MinotaurAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
+        // Required for 2D NavMesh
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
@@ -79,25 +82,76 @@ public class MinotaurAI : MonoBehaviour
 
     void LateUpdate()
     {
-        // HARD LOCK 2D PLANE
-        Vector3 p = transform.position;
-        transform.position = new Vector3(p.x, p.y, 0f);
+        // Keep enemy locked to 2D plane
+        Vector3 pos = transform.position;
+        transform.position = new Vector3(pos.x, pos.y, 0f);
     }
 
     // ---------------- VISION ----------------
 
     void UpdateVision()
     {
-        if (player == null) return;
+        if (player == null)
+            return;
 
-        float dist = Vector3.Distance(transform.position, player.position);
+        canSeePlayer = false;
 
-        canSeePlayer = dist <= sightRange;
+        Vector2 direction = player.position - transform.position;
+        float distance = direction.magnitude;
 
-        if (canSeePlayer)
+        // Close awareness
+        if (distance <= closeAwarenessRange)
         {
+            canSeePlayer = true;
+
             lastKnownPlayerPos = player.position;
             lastSeenTime = Time.time;
+
+            Debug.DrawRay(
+                transform.position,
+                direction.normalized * distance,
+                Color.green);
+
+            return;
+        }
+
+        // Too far away
+        if (distance > sightRange)
+        {
+            Debug.DrawRay(
+                transform.position,
+                direction.normalized * sightRange,
+                Color.red);
+
+            return;
+        }
+
+        // Check if wall blocks line of sight
+        RaycastHit2D hit = Physics2D.Raycast(
+            transform.position,
+            direction.normalized,
+            distance,
+            wallMask
+        );
+
+        if (hit.collider == null)
+        {
+            canSeePlayer = true;
+
+            lastKnownPlayerPos = player.position;
+            lastSeenTime = Time.time;
+
+            Debug.DrawRay(
+                transform.position,
+                direction.normalized * distance,
+                Color.green);
+        }
+        else
+        {
+            Debug.DrawRay(
+                transform.position,
+                direction.normalized * distance,
+                Color.red);
         }
     }
 
@@ -116,13 +170,16 @@ public class MinotaurAI : MonoBehaviour
 
     void HuntUpdate()
     {
-        if (player == null) return;
+        if (player == null)
+            return;
 
         SetSafeDestination(player.position);
     }
 
     void SearchUpdate()
     {
+        stateTimer -= Time.deltaTime;
+
         if (!agent.hasPath || agent.remainingDistance < 0.5f)
         {
             if (stateTimer <= 0)
@@ -133,8 +190,6 @@ public class MinotaurAI : MonoBehaviour
 
             Vector3 target = GetSafeRandomPoint(lastKnownPlayerPos, searchRadius);
             SetSafeDestination(target);
-
-            stateTimer -= Time.deltaTime;
         }
     }
 
@@ -165,7 +220,8 @@ public class MinotaurAI : MonoBehaviour
             return;
         }
 
-        if (Time.time - lastSeenTime > forgetTime && currentState == State.Search)
+        if (Time.time - lastSeenTime > forgetTime &&
+            currentState == State.Search)
         {
             ChangeState(State.Wander);
         }
@@ -173,12 +229,15 @@ public class MinotaurAI : MonoBehaviour
 
     void ChangeState(State newState)
     {
-        if (currentState == newState) return;
+        if (currentState == newState)
+            return;
 
         currentState = newState;
 
         if (newState == State.Search)
+        {
             stateTimer = searchDuration;
+        }
     }
 
     // ---------------- SAFE NAV HELPERS ----------------
@@ -195,20 +254,28 @@ public class MinotaurAI : MonoBehaviour
     {
         for (int i = 0; i < 5; i++)
         {
-            Vector3 randomPoint = origin + Random.insideUnitSphere * radius;
+            Vector3 randomPoint =
+                origin + Random.insideUnitSphere * radius;
 
             if (TryGetNavMeshPoint(randomPoint, out Vector3 hit))
+            {
                 return hit;
+            }
         }
 
-        return origin; // fallback safety
+        return origin;
     }
 
     bool TryGetNavMeshPoint(Vector3 source, out Vector3 result)
     {
         NavMeshHit hit;
 
-        bool success = NavMesh.SamplePosition(source, out hit, 2f, NavMesh.AllAreas);
+        bool success =
+            NavMesh.SamplePosition(
+                source,
+                out hit,
+                2f,
+                NavMesh.AllAreas);
 
         if (success)
         {
