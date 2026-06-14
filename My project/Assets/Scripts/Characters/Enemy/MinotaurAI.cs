@@ -39,10 +39,16 @@ public class MinotaurAI : MonoBehaviour
     private bool canSeePlayer;
 
     private NavMeshAgent agent;
+    private Animator animator;
+    private Vector3 lastpos;
+
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+
+        lastpos = transform.position;
 
         // Required for 2D NavMesh
         agent.updateRotation = false;
@@ -78,6 +84,8 @@ public class MinotaurAI : MonoBehaviour
         }
 
         StateTransitions();
+
+        UpdateAnimation();
     }
 
     void LateUpdate()
@@ -286,6 +294,22 @@ public class MinotaurAI : MonoBehaviour
         result = source;
         return false;
     }
+
+    //------------------ Animator -------------------
+
+    void UpdateAnimation()
+    {
+        Vector3 movement = transform.position - lastpos;
+        animator.SetBool("IsMoving", movement.magnitude > 0.01f);
+
+        if (movement.magnitude > 0.01f)
+        {
+            animator.SetFloat("MoveX", movement.x);
+            animator.SetFloat("MoveY", movement.y);
+        }
+        lastpos = transform.position;
+    }
+
 
     // ---------------- NOISE SYSTEM ----------------
 
