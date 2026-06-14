@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 277b86364a39100429b6f7ee71c91307
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8197375778047440441
+    second: Minotaur_Walk_Left-Sheet_0
+  - first:
+      213: -4710893829402528246
+    second: Minotaur_Walk_Left-Sheet_1
+  - first:
+      213: -8678514632203533830
+    second: Minotaur_Walk_Left-Sheet_2
+  - first:
+      213: -7242026737605644106
+    second: Minotaur_Walk_Left-Sheet_3
+  - first:
+      213: -488319398663282934
+    second: Minotaur_Walk_Left-Sheet_4
+  - first:
+      213: -7525656357798174962
+    second: Minotaur_Walk_Left-Sheet_5
+  - first:
+      213: 5028789919621385419
+    second: Minotaur_Walk_Left-Sheet_6
+  - first:
+      213: -5734386219145852119
+    second: Minotaur_Walk_Left-Sheet_7
+  - first:
+      213: 4033259415623719502
+    second: Minotaur_Walk_Left-Sheet_8
+  - first:
+      213: -516468860450823168
+    second: Minotaur_Walk_Left-Sheet_9
+  - first:
+      213: 4555368313116510225
+    second: Minotaur_Walk_Left-Sheet_10
+  - first:
+      213: -281026109556568167
+    second: Minotaur_Walk_Left-Sheet_11
+  - first:
+      213: -1335943538587233411
+    second: Minotaur_Walk_Left-Sheet_12
+  - first:
+      213: 3435570743169811834
+    second: Minotaur_Walk_Left-Sheet_13
+  - first:
+      213: 2743779783810732789
+    second: Minotaur_Walk_Left-Sheet_14
+  - first:
+      213: -5850423064928562328
+    second: Minotaur_Walk_Left-Sheet_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 0
+        width: 37
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 936b8eca6dde2c170800000000000000
+      internalID: 8197375778047440441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 0
+        width: 38
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a06f1e3850b8f9eb0800000000000000
+      internalID: -4710893829402528246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 0
+        width: 40
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af18a793ce8bf8780800000000000000
+      internalID: -8678514632203533830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 0
+        width: 40
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b072235d072f7b90800000000000000
+      internalID: -7242026737605644106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 0
+        width: 39
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0f1eb918142939f0800000000000000
+      internalID: -488319398663282934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 0
+        width: 39
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0f97cb4a6f7f8790800000000000000
+      internalID: -7525656357798174962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 0
+        width: 38
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcc0919c9c9d9c540800000000000000
+      internalID: 5028789919621385419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 0
+        width: 37
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92b8ae2ad1e5b60b0800000000000000
+      internalID: -5734386219145852119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 0
+        width: 37
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4a5043c11409f730800000000000000
+      internalID: 4033259415623719502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 0
+        width: 38
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 004274bce4225d8f0800000000000000
+      internalID: -516468860450823168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 0
+        width: 40
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 118416c685be73f30800000000000000
+      internalID: 4555368313116510225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 0
+        width: 40
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99f45470e38991cf0800000000000000
+      internalID: -281026109556568167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 469
+        y: 0
+        width: 39
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7397860e66c57de0800000000000000
+      internalID: -1335943538587233411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 0
+        width: 39
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a758c5373699daf20800000000000000
+      internalID: 3435570743169811834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 0
+        width: 38
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f2dfeb1d2dd31620800000000000000
+      internalID: 2743779783810732789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Walk_Left-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 0
+        width: 36
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8635e25283f1fcea0800000000000000
+      internalID: -5850423064928562328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Minotaur_Walk_Left-Sheet_0: 8197375778047440441
+      Minotaur_Walk_Left-Sheet_1: -4710893829402528246
+      Minotaur_Walk_Left-Sheet_10: 4555368313116510225
+      Minotaur_Walk_Left-Sheet_11: -281026109556568167
+      Minotaur_Walk_Left-Sheet_12: -1335943538587233411
+      Minotaur_Walk_Left-Sheet_13: 3435570743169811834
+      Minotaur_Walk_Left-Sheet_14: 2743779783810732789
+      Minotaur_Walk_Left-Sheet_15: -5850423064928562328
+      Minotaur_Walk_Left-Sheet_2: -8678514632203533830
+      Minotaur_Walk_Left-Sheet_3: -7242026737605644106
+      Minotaur_Walk_Left-Sheet_4: -488319398663282934
+      Minotaur_Walk_Left-Sheet_5: -7525656357798174962
+      Minotaur_Walk_Left-Sheet_6: 5028789919621385419
+      Minotaur_Walk_Left-Sheet_7: -5734386219145852119
+      Minotaur_Walk_Left-Sheet_8: 4033259415623719502
+      Minotaur_Walk_Left-Sheet_9: -516468860450823168
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
