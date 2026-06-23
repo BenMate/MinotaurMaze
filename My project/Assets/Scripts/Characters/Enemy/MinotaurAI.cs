@@ -29,28 +29,23 @@ public class MinotaurAI : MonoBehaviour
     public float searchRadius = 4f;
 
     private State currentState;
-
     private Vector3 lastKnownPlayerPos;
     private Vector3 investigationPos;
-
     private float lastSeenTime;
     private float stateTimer;
-
     private bool canSeePlayer;
 
     private NavMeshAgent agent;
     private Animator animator;
-    private Vector3 lastpos;
 
+    // NEW: stores last valid facing direction
+    private Vector2 lastMoveDirection = Vector2.down;
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
-        lastpos = transform.position;
-
-        // Required for 2D NavMesh
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
@@ -84,57 +79,35 @@ public class MinotaurAI : MonoBehaviour
         }
 
         StateTransitions();
-
         UpdateAnimation();
     }
 
     void LateUpdate()
     {
-        // Keep enemy locked to 2D plane
         Vector3 pos = transform.position;
         transform.position = new Vector3(pos.x, pos.y, 0f);
     }
 
-    // ---------------- VISION ----------------
-
     void UpdateVision()
     {
-        if (player == null)
-            return;
+        if (player == null) return;
 
         canSeePlayer = false;
 
         Vector2 direction = player.position - transform.position;
         float distance = direction.magnitude;
 
-        // Close awareness
         if (distance <= closeAwarenessRange)
         {
             canSeePlayer = true;
-
             lastKnownPlayerPos = player.position;
             lastSeenTime = Time.time;
-
-            Debug.DrawRay(
-                transform.position,
-                direction.normalized * distance,
-                Color.green);
-
             return;
         }
 
-        // Too far away
         if (distance > sightRange)
-        {
-            Debug.DrawRay(
-                transform.position,
-                direction.normalized * sightRange,
-                Color.red);
-
             return;
-        }
 
-        // Check if wall blocks line of sight
         RaycastHit2D hit = Physics2D.Raycast(
             transform.position,
             direction.normalized,
@@ -145,25 +118,10 @@ public class MinotaurAI : MonoBehaviour
         if (hit.collider == null)
         {
             canSeePlayer = true;
-
             lastKnownPlayerPos = player.position;
             lastSeenTime = Time.time;
-
-            Debug.DrawRay(
-                transform.position,
-                direction.normalized * distance,
-                Color.green);
-        }
-        else
-        {
-            Debug.DrawRay(
-                transform.position,
-                direction.normalized * distance,
-                Color.red);
         }
     }
-
-    // ---------------- STATES ----------------
 
     void WanderUpdate()
     {
@@ -171,16 +129,13 @@ public class MinotaurAI : MonoBehaviour
         {
             Vector3 target = GetSafeRandomPoint(transform.position, wanderRadius);
             SetSafeDestination(target);
-
             stateTimer = wanderWaitTime;
         }
     }
 
     void HuntUpdate()
     {
-        if (player == null)
-            return;
-
+        if (player == null) return;
         SetSafeDestination(player.position);
     }
 
@@ -210,8 +165,6 @@ public class MinotaurAI : MonoBehaviour
             ChangeState(State.Search);
         }
     }
-
-    // ---------------- STATE LOGIC ----------------
 
     void StateTransitions()
     {
@@ -248,8 +201,6 @@ public class MinotaurAI : MonoBehaviour
         }
     }
 
-    // ---------------- SAFE NAV HELPERS ----------------
-
     void SetSafeDestination(Vector3 target)
     {
         if (TryGetNavMeshPoint(target, out Vector3 safe))
@@ -262,8 +213,7 @@ public class MinotaurAI : MonoBehaviour
     {
         for (int i = 0; i < 5; i++)
         {
-            Vector3 randomPoint =
-                origin + Random.insideUnitSphere * radius;
+            Vector3 randomPoint = origin + Random.insideUnitSphere * radius;
 
             if (TryGetNavMeshPoint(randomPoint, out Vector3 hit))
             {
@@ -278,12 +228,11 @@ public class MinotaurAI : MonoBehaviour
     {
         NavMeshHit hit;
 
-        bool success =
-            NavMesh.SamplePosition(
-                source,
-                out hit,
-                2f,
-                NavMesh.AllAreas);
+        bool success = NavMesh.SamplePosition(
+            source,
+            out hit,
+            2f,
+            NavMesh.AllAreas);
 
         if (success)
         {
@@ -295,23 +244,28 @@ public class MinotaurAI : MonoBehaviour
         return false;
     }
 
-    //------------------ Animator -------------------
-
     void UpdateAnimation()
     {
-        Vector3 movement = transform.position - lastpos;
-        animator.SetBool("IsMoving", movement.magnitude > 0.01f);
+        Vector2 velocity = agent.velocity;
+        float speed = velocity.magnitude;
 
-        if (movement.magnitude > 0.01f)
+        bool isMoving = speed > 0.05f;
+        animator.SetBool("IsMoving", isMoving);
+
+        if (isMoving)
         {
-            animator.SetFloat("MoveX", movement.x);
-            animator.SetFloat("MoveY", movement.y);
+            Vector2 dir = velocity.normalized;
+
+            if (Mathf.Abs(dir.x) < 0.1f) dir.x = 0;
+            if (Mathf.Abs(dir.y) < 0.1f) dir.y = 0;
+
+            if (dir != Vector2.zero)
+                lastMoveDirection = dir;
         }
-        lastpos = transform.position;
+
+        animator.SetFloat("MoveX", lastMoveDirection.x);
+        animator.SetFloat("MoveY", lastMoveDirection.y);
     }
-
-
-    // ---------------- NOISE SYSTEM ----------------
 
     public void TriggerNoise(Vector3 position)
     {

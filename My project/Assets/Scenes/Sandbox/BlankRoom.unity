@@ -559,6 +559,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2499044451184264755, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 9ea09c8eed4d6174aa4878e1ac8a71fb, type: 2}
     - target: {fileID: 498372856782927118, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
       propertyPath: m_Name
       value: Player
@@ -603,6 +607,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4612813461106374587, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 867716920}
     - target: {fileID: 5420715144801462082, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
       propertyPath: m_FalloffIntensity
       value: 0.892
@@ -674,6 +682,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1280480201504833228, guid: 373903f45b4db39479ef9298f231b9b9, type: 3}
   m_PrefabInstance: {fileID: 288130368}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &867716920 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -2499044451184264755, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
+  m_PrefabInstance: {fileID: 709205737}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &915717631 stripped
 Transform:
