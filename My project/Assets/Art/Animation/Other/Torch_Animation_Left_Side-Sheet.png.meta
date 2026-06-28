@@ -1,0 +1,429 @@
+fileFormatVersion: 2
+guid: 4683be447272aa540a50c01480e06cab
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3611440978376113839
+    second: Torch_Animation_Left_Side-Sheet_0
+  - first:
+      213: 6169355829342796882
+    second: Torch_Animation_Left_Side-Sheet_1
+  - first:
+      213: -810773546536802416
+    second: Torch_Animation_Left_Side-Sheet_2
+  - first:
+      213: 1397178677919451153
+    second: Torch_Animation_Left_Side-Sheet_3
+  - first:
+      213: -3240893984038770167
+    second: Torch_Animation_Left_Side-Sheet_4
+  - first:
+      213: 67023945396690182
+    second: Torch_Animation_Left_Side-Sheet_5
+  - first:
+      213: -6489167090330782061
+    second: Torch_Animation_Left_Side-Sheet_6
+  - first:
+      213: -4363923454538352007
+    second: Torch_Animation_Left_Side-Sheet_7
+  - first:
+      213: 7464031028277322679
+    second: Torch_Animation_Left_Side-Sheet_8
+  - first:
+      213: -8805072010781400319
+    second: Torch_Animation_Left_Side-Sheet_9
+  - first:
+      213: -358942159652946430
+    second: Torch_Animation_Left_Side-Sheet_10
+  - first:
+      213: 2334142276230248238
+    second: Torch_Animation_Left_Side-Sheet_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2
+        width: 5
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faeb5638f6a6e1230800000000000000
+      internalID: 3611440978376113839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 2
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25c76fca074fd9550800000000000000
+      internalID: 6169355829342796882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 2
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 097e36d41cd8fb4f0800000000000000
+      internalID: -810773546536802416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 2
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1188321ea96c36310800000000000000
+      internalID: 1397178677919451153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 2
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90a2baea7180603d0800000000000000
+      internalID: -3240893984038770167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 2
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60d90d85ced1ee000800000000000000
+      internalID: 67023945396690182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 2
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 396bda499e8d1f5a0800000000000000
+      internalID: -6489167090330782061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 2
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97afe393dba3073c0800000000000000
+      internalID: -4363923454538352007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 2
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b3a6f09ca0959760800000000000000
+      internalID: 7464031028277322679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 2
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 103e3af48a91ec580800000000000000
+      internalID: -8805072010781400319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 2
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20e79fee108c40bf0800000000000000
+      internalID: -358942159652946430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torch_Animation_Left_Side-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 2
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e27fced880a846020800000000000000
+      internalID: 2334142276230248238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Torch_Animation_Left_Side-Sheet_0: 3611440978376113839
+      Torch_Animation_Left_Side-Sheet_1: 6169355829342796882
+      Torch_Animation_Left_Side-Sheet_10: -358942159652946430
+      Torch_Animation_Left_Side-Sheet_11: 2334142276230248238
+      Torch_Animation_Left_Side-Sheet_2: -810773546536802416
+      Torch_Animation_Left_Side-Sheet_3: 1397178677919451153
+      Torch_Animation_Left_Side-Sheet_4: -3240893984038770167
+      Torch_Animation_Left_Side-Sheet_5: 67023945396690182
+      Torch_Animation_Left_Side-Sheet_6: -6489167090330782061
+      Torch_Animation_Left_Side-Sheet_7: -4363923454538352007
+      Torch_Animation_Left_Side-Sheet_8: 7464031028277322679
+      Torch_Animation_Left_Side-Sheet_9: -8805072010781400319
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
