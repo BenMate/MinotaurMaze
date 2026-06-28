@@ -18,9 +18,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerInput inputs;
     [SerializeField] private Camera cam;
     [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private CapsuleCollider2D cc;
 
-    // Stores the last valid direction so idle faces correctly
     private Vector2 lastMoveDirection = Vector2.down;
+    private bool movementLocked = false;
+
+    private HideHole currentHideHole;
+
+    public bool IsHidden { get; private set; }
 
     void Awake()
     {
@@ -28,24 +34,15 @@ public class PlayerController : MonoBehaviour
         inputs ??= GetComponent<PlayerInput>();
         cam ??= GetComponentInChildren<Camera>();
         animator ??= GetComponent<Animator>();
+        spriteRenderer ??= GetComponent<SpriteRenderer>();
+        cc ??= GetComponent<CapsuleCollider2D>();
 
-        if (rb == null)
-            Debug.LogError("PlayerController requires a Rigidbody2D!");
-
-        if (inputs == null)
-            Debug.LogError("PlayerController requires a PlayerInput!");
-
-        if (animator == null)
-            Debug.LogError("PlayerController requires an Animator!");
-
-        // Freeze rotation and disable gravity for top-down movement
         rb.gravityScale = 0f;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     void Update()
     {
-        // Camera zoom
         float scroll = inputs.mouseWheel;
 
         if (scroll != 0.0f)
@@ -57,11 +54,16 @@ public class PlayerController : MonoBehaviour
                 maxZoom
             );
         }
+
+        if (inputs.interactPressed && currentHideHole != null)
+        {
+            currentHideHole.Interact(this);
+        }
     }
 
     void FixedUpdate()
     {
-        if (inputs == null)
+        if (inputs == null || movementLocked)
             return;
 
         Vector2 movement = inputs.moveInputs;
@@ -85,18 +87,33 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 dir = movement.normalized;
 
-            // 4-direction lock with horizontal priority
             if (Mathf.Abs(dir.x) >= Mathf.Abs(dir.y))
-            {
                 lastMoveDirection = new Vector2(Mathf.Sign(dir.x), 0f);
-            }
             else
-            {
                 lastMoveDirection = new Vector2(0f, Mathf.Sign(dir.y));
-            }
         }
 
         animator.SetFloat("MoveX", lastMoveDirection.x);
         animator.SetFloat("MoveY", lastMoveDirection.y);
+    }
+
+    public void HidePlayer(bool isPlayerHiding)
+    {
+        IsHidden = isPlayerHiding;
+        movementLocked = isPlayerHiding;
+
+        cc.enabled = !isPlayerHiding;
+        spriteRenderer.color = isPlayerHiding ? Color.clear : Color.white;
+    }
+
+    public void SetCurrentHideHole(HideHole hole)
+    {
+        currentHideHole = hole;
+    }
+
+    public void ClearCurrentHideHole(HideHole hole)
+    {
+        if (currentHideHole == hole)
+            currentHideHole = null;
     }
 }

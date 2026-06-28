@@ -37,8 +37,6 @@ public class MinotaurAI : MonoBehaviour
 
     private NavMeshAgent agent;
     private Animator animator;
-
-    // NEW: stores last valid facing direction
     private Vector2 lastMoveDirection = Vector2.down;
 
     void Awake()
@@ -64,15 +62,12 @@ public class MinotaurAI : MonoBehaviour
             case State.Wander:
                 WanderUpdate();
                 break;
-
             case State.Hunt:
                 HuntUpdate();
                 break;
-
             case State.Search:
                 SearchUpdate();
                 break;
-
             case State.Investigate:
                 InvestigateUpdate();
                 break;
@@ -90,7 +85,16 @@ public class MinotaurAI : MonoBehaviour
 
     void UpdateVision()
     {
-        if (player == null) return;
+        if (player == null)
+            return;
+
+        PlayerController playerController = player.GetComponent<PlayerController>();
+
+        if (playerController != null && playerController.IsHidden)
+        {
+            canSeePlayer = false;
+            return;
+        }
 
         canSeePlayer = false;
 
@@ -161,9 +165,7 @@ public class MinotaurAI : MonoBehaviour
         SetSafeDestination(investigationPos);
 
         if (!agent.pathPending && agent.remainingDistance < 0.5f)
-        {
             ChangeState(State.Search);
-        }
     }
 
     void StateTransitions()
@@ -196,17 +198,13 @@ public class MinotaurAI : MonoBehaviour
         currentState = newState;
 
         if (newState == State.Search)
-        {
             stateTimer = searchDuration;
-        }
     }
 
     void SetSafeDestination(Vector3 target)
     {
         if (TryGetNavMeshPoint(target, out Vector3 safe))
-        {
             agent.SetDestination(safe);
-        }
     }
 
     Vector3 GetSafeRandomPoint(Vector3 origin, float radius)
@@ -216,9 +214,7 @@ public class MinotaurAI : MonoBehaviour
             Vector3 randomPoint = origin + Random.insideUnitSphere * radius;
 
             if (TryGetNavMeshPoint(randomPoint, out Vector3 hit))
-            {
                 return hit;
-            }
         }
 
         return origin;
@@ -228,11 +224,7 @@ public class MinotaurAI : MonoBehaviour
     {
         NavMeshHit hit;
 
-        bool success = NavMesh.SamplePosition(
-            source,
-            out hit,
-            2f,
-            NavMesh.AllAreas);
+        bool success = NavMesh.SamplePosition(source, out hit, 2f, NavMesh.AllAreas);
 
         if (success)
         {
@@ -267,9 +259,22 @@ public class MinotaurAI : MonoBehaviour
         animator.SetFloat("MoveY", lastMoveDirection.y);
     }
 
+    public bool CanPlayerNotHide()
+    {
+        if (currentState == State.Hunt && canSeePlayer)
+        {
+            Debug.Log("MINOTAUR Sees PLAYER hiding");
+            return false;
+        }
+
+        return true;
+    }
+
     public void TriggerNoise(Vector3 position)
     {
         investigationPos = position;
         ChangeState(State.Investigate);
     }
+
+    
 }
