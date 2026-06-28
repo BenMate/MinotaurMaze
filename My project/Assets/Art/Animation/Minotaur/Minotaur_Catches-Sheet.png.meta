@@ -1,0 +1,715 @@
+fileFormatVersion: 2
+guid: 06adadc6d1364b24898b38a54d763088
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3124962237217274207
+    second: Minotaur_Catches-Sheet_0
+  - first:
+      213: 2057985194693674023
+    second: Minotaur_Catches-Sheet_1
+  - first:
+      213: 5353727496101079608
+    second: Minotaur_Catches-Sheet_2
+  - first:
+      213: 7677567942584313513
+    second: Minotaur_Catches-Sheet_3
+  - first:
+      213: 8163579086107999560
+    second: Minotaur_Catches-Sheet_4
+  - first:
+      213: 4010301337490757838
+    second: Minotaur_Catches-Sheet_5
+  - first:
+      213: -9086025476827121380
+    second: Minotaur_Catches-Sheet_6
+  - first:
+      213: 3900735166059109810
+    second: Minotaur_Catches-Sheet_7
+  - first:
+      213: 434426109807383110
+    second: Minotaur_Catches-Sheet_8
+  - first:
+      213: -3179079961329513935
+    second: Minotaur_Catches-Sheet_9
+  - first:
+      213: 3353003057084592307
+    second: Minotaur_Catches-Sheet_10
+  - first:
+      213: -4207951479114544533
+    second: Minotaur_Catches-Sheet_11
+  - first:
+      213: 3398908877337902850
+    second: Minotaur_Catches-Sheet_12
+  - first:
+      213: -6415350441504323847
+    second: Minotaur_Catches-Sheet_13
+  - first:
+      213: -3855560106962265535
+    second: Minotaur_Catches-Sheet_14
+  - first:
+      213: -6517734453588697535
+    second: Minotaur_Catches-Sheet_15
+  - first:
+      213: -5696726655983501778
+    second: Minotaur_Catches-Sheet_16
+  - first:
+      213: 2224508842246491384
+    second: Minotaur_Catches-Sheet_17
+  - first:
+      213: -7923760942646293452
+    second: Minotaur_Catches-Sheet_18
+  - first:
+      213: -890484007800936300
+    second: Minotaur_Catches-Sheet_19
+  - first:
+      213: -3449911391222553257
+    second: Minotaur_Catches-Sheet_20
+  - first:
+      213: 8007520696603017581
+    second: Minotaur_Catches-Sheet_21
+  - first:
+      213: 6068889456116994347
+    second: Minotaur_Catches-Sheet_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 0
+        width: 39
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a6872ae667e1a4d0800000000000000
+      internalID: -3124962237217274207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 0
+        width: 39
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 724cab281ae6f8c10800000000000000
+      internalID: 2057985194693674023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 0
+        width: 39
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83aa85ddac24c4a40800000000000000
+      internalID: 5353727496101079608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 0
+        width: 39
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a62aa4cd533c8a60800000000000000
+      internalID: 7677567942584313513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84d76432debda4170800000000000000
+      internalID: 8163579086107999560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec81967a1d377a730800000000000000
+      internalID: 4010301337490757838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c19f199f7f3f7e180800000000000000
+      internalID: -9086025476827121380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bdd3df67f1322630800000000000000
+      internalID: 3900735166059109810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6425934ce34670600800000000000000
+      internalID: 434426109807383110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13a44606e93a1e3d0800000000000000
+      internalID: -3179079961329513935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b07354f382488e20800000000000000
+      internalID: 3353003057084592307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6a4c47ac6a5a95c0800000000000000
+      internalID: -4207951479114544533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 493
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20fb5a1ad995b2f20800000000000000
+      internalID: 3398908877337902850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f64d7073c818f6a0800000000000000
+      internalID: -6415350441504323847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14ad856a28c4e7ac0800000000000000
+      internalID: -3855560106962265535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14e55810c0b5c85a0800000000000000
+      internalID: -6517734453588697535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2eba97f94921f0b0800000000000000
+      internalID: -5696726655983501778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fc41dd810b0fde10800000000000000
+      internalID: 2224508842246491384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43c04709765290290800000000000000
+      internalID: -7923760942646293452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 498ebdc438d54a3f0800000000000000
+      internalID: -890484007800936300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7552b9b3ed37f10d0800000000000000
+      internalID: -3449911391222553257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 862
+        y: 0
+        width: 39
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d618c9cd5ad602f60800000000000000
+      internalID: 8007520696603017581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minotaur_Catches-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 903
+        y: 0
+        width: 40
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2197f45ec6093450800000000000000
+      internalID: 6068889456116994347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Minotaur_Catches-Sheet_0: -3124962237217274207
+      Minotaur_Catches-Sheet_1: 2057985194693674023
+      Minotaur_Catches-Sheet_10: 3353003057084592307
+      Minotaur_Catches-Sheet_11: -4207951479114544533
+      Minotaur_Catches-Sheet_12: 3398908877337902850
+      Minotaur_Catches-Sheet_13: -6415350441504323847
+      Minotaur_Catches-Sheet_14: -3855560106962265535
+      Minotaur_Catches-Sheet_15: -6517734453588697535
+      Minotaur_Catches-Sheet_16: -5696726655983501778
+      Minotaur_Catches-Sheet_17: 2224508842246491384
+      Minotaur_Catches-Sheet_18: -7923760942646293452
+      Minotaur_Catches-Sheet_19: -890484007800936300
+      Minotaur_Catches-Sheet_2: 5353727496101079608
+      Minotaur_Catches-Sheet_20: -3449911391222553257
+      Minotaur_Catches-Sheet_21: 8007520696603017581
+      Minotaur_Catches-Sheet_22: 6068889456116994347
+      Minotaur_Catches-Sheet_3: 7677567942584313513
+      Minotaur_Catches-Sheet_4: 8163579086107999560
+      Minotaur_Catches-Sheet_5: 4010301337490757838
+      Minotaur_Catches-Sheet_6: -9086025476827121380
+      Minotaur_Catches-Sheet_7: 3900735166059109810
+      Minotaur_Catches-Sheet_8: 434426109807383110
+      Minotaur_Catches-Sheet_9: -3179079961329513935
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
