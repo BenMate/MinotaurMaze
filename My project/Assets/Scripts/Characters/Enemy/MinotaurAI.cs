@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class MinotaurAI : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class MinotaurAI : MonoBehaviour
 
     [Header("References")]
     public Transform player;
+    public SceneLoader sceneManager;
 
     [Header("Vision")]
     public float sightRange = 12f;
@@ -28,12 +30,20 @@ public class MinotaurAI : MonoBehaviour
     public float searchDuration = 6f;
     public float searchRadius = 4f;
 
+    [Header("Grab")]
+    public float grabRange = 1.2f;
+    public float killRange = 1.5f;
+    public float grabWindup = 1f;
+
     private State currentState;
     private Vector3 lastKnownPlayerPos;
     private Vector3 investigationPos;
     private float lastSeenTime;
     private float stateTimer;
     private bool canSeePlayer;
+
+    private bool isAttemptingGrab;
+    private float grabTimer;
 
     private NavMeshAgent agent;
     private Animator animator;
@@ -85,8 +95,7 @@ public class MinotaurAI : MonoBehaviour
 
     void UpdateVision()
     {
-        if (player == null)
-            return;
+        if (player == null) return;
 
         PlayerController playerController = player.GetComponent<PlayerController>();
 
@@ -133,13 +142,66 @@ public class MinotaurAI : MonoBehaviour
         {
             Vector3 target = GetSafeRandomPoint(transform.position, wanderRadius);
             SetSafeDestination(target);
-            stateTimer = wanderWaitTime;
         }
     }
 
     void HuntUpdate()
     {
-        if (player == null) return;
+        if (player == null)
+            return;
+
+        PlayerController pc = player.GetComponent<PlayerController>();
+        float distance = Vector2.Distance(transform.position, player.position);
+
+        //grabbing 
+        if (isAttemptingGrab)
+        {
+            grabTimer -= Time.deltaTime;
+
+            if (grabTimer <= 0f)
+            {
+                isAttemptingGrab = false;
+
+                if (distance <= killRange)
+                {
+                    pc.PlayerDied();
+
+                    sceneManager.PlayerDiedScene();
+                    animator.SetBool("playerDead", true);
+
+                    Debug.Log("PLAYER DIED");
+                }
+                else //end grab after x time -todo make a distance check aswell
+                {
+                    animator.SetBool("isGrabbing", false);
+                    Debug.Log("PLAYER ESCAPED");
+                    pc?.ClearGrabSlow();
+                    agent.isStopped = false;
+                }
+            }
+
+            return;
+        }
+
+
+        //start grab
+        if (distance <= grabRange)
+        {
+            isAttemptingGrab = true;
+            grabTimer = grabWindup;
+
+            agent.ResetPath();
+            agent.isStopped = true;
+
+            pc?.ApplyGrabSlow();
+
+            animator.SetBool("isGrabbing", true);
+
+            Debug.Log("MINOTAUR STARTED GRAB");
+            return;
+        }
+
+        agent.isStopped = false;
         SetSafeDestination(player.position);
     }
 
@@ -180,6 +242,10 @@ public class MinotaurAI : MonoBehaviour
         {
             ChangeState(State.Search);
             stateTimer = searchDuration;
+
+            if (player != null)
+                player.GetComponent<PlayerController>()?.ClearGrabSlow();
+
             return;
         }
 
@@ -276,5 +342,15 @@ public class MinotaurAI : MonoBehaviour
         ChangeState(State.Investigate);
     }
 
-    
+
+    private void OnDrawGizmosSelected()
+    {
+        //grab range
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, grabRange);
+
+        //kill range
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, killRange);
+    }
 }

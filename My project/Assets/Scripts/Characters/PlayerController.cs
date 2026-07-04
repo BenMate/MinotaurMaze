@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 lastMoveDirection = Vector2.down;
     private bool movementLocked = false;
 
+    private float speedMultiplier = 1f;
+
     private HideHole currentHideHole;
 
     public bool IsHidden { get; private set; }
@@ -74,7 +76,7 @@ public class PlayerController : MonoBehaviour
         UpdateAnimation(movement);
 
         rb.MovePosition(
-            rb.position + moveSpeed * Time.fixedDeltaTime * movement
+            rb.position + (moveSpeed * speedMultiplier) * Time.fixedDeltaTime * movement
         );
     }
 
@@ -97,13 +99,27 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("MoveY", lastMoveDirection.y);
     }
 
+    public void ApplyGrabSlow()
+    {
+        speedMultiplier = 0.5f; // 50% slow
+        animator.speed = 0.5f;
+    }
+
+    public void ClearGrabSlow()
+    {
+        speedMultiplier = 1f;
+        animator.speed = 1f;
+    }
+
     public void HidePlayer(bool isPlayerHiding)
     {
         IsHidden = isPlayerHiding;
         movementLocked = isPlayerHiding;
 
-        cc.enabled = !isPlayerHiding;
         spriteRenderer.color = isPlayerHiding ? Color.clear : Color.white;
+
+        if (cc != null)
+            cc.enabled = !isPlayerHiding;
     }
 
     public void SetCurrentHideHole(HideHole hole)
@@ -115,5 +131,11 @@ public class PlayerController : MonoBehaviour
     {
         if (currentHideHole == hole)
             currentHideHole = null;
+    }
+
+    public void PlayerDied()
+    {
+        movementLocked = true;
+        spriteRenderer.color = Color.clear;
     }
 }
