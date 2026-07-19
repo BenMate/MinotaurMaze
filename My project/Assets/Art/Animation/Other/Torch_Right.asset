@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: Torch_Right
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 3611440978376113839, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  - {fileID: 6169355829342796882, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  - {fileID: -810773546536802416, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  - {fileID: 1397178677919451153, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  - {fileID: -3240893984038770167, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  - {fileID: 67023945396690182, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  - {fileID: -6489167090330782061, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  - {fileID: -4363923454538352007, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  - {fileID: 7464031028277322679, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  - {fileID: -8805072010781400319, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  - {fileID: -358942159652946430, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  - {fileID: 2334142276230248238, guid: 4683be447272aa540a50c01480e06cab, type: 3}
+  m_MinSpeed: 1
+  m_MaxSpeed: 1
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
+  m_TileAnimationFlags: 0

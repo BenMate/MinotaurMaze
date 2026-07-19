@@ -93,10 +93,17 @@ public class PlayerController : MonoBehaviour
                 lastMoveDirection = new Vector2(Mathf.Sign(dir.x), 0f);
             else
                 lastMoveDirection = new Vector2(0f, Mathf.Sign(dir.y));
+
+            animator.SetFloat("MoveX", lastMoveDirection.x);
+            animator.SetFloat("MoveY", lastMoveDirection.y);
+        }
+        else
+        {
+            animator.SetFloat("MoveX", 0.0f);
+            animator.SetFloat("MoveY", 0.0f);
         }
 
-        animator.SetFloat("MoveX", lastMoveDirection.x);
-        animator.SetFloat("MoveY", lastMoveDirection.y);
+        Debug.Log(movement.magnitude);
     }
 
     public void ApplyGrabSlow()
