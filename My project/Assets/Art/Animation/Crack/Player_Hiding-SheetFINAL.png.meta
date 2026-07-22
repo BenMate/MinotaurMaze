@@ -1,40 +1,10 @@
 fileFormatVersion: 2
-guid: 267ec89e74c55dc4894311b398b050a2
+guid: 262580b4bd3f5df4f96ed68f5e226713
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1263023687961535153
-    second: Player_Hiding-Sheet_0
-  - first:
-      213: 5043621668539385018
-    second: Player_Hiding-Sheet_1
-  - first:
-      213: 4727636247836173549
-    second: Player_Hiding-Sheet_2
-  - first:
-      213: -1266120732417453843
-    second: Player_Hiding-Sheet_3
-  - first:
-      213: -998971379303649868
-    second: Player_Hiding-Sheet_4
-  - first:
-      213: -3711012169427269278
-    second: Player_Hiding-Sheet_5
-  - first:
-      213: 2414951916563478546
-    second: Player_Hiding-Sheet_6
-  - first:
-      213: -140152265390542760
-    second: Player_Hiding-Sheet_7
-  - first:
-      213: -6648727874188943881
-    second: Player_Hiding-Sheet_8
-  - first:
-      213: 8448912483560151048
-    second: Player_Hiding-Sheet_9
-  - first:
-      213: -302811317835818517
-    second: Player_Hiding-Sheet_10
+      213: -5226217293014121533
+    second: Player_Hiding-SheetFINAL_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -67,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -81,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -105,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -130,12 +100,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_Hiding-Sheet_0
+      name: Player_Hiding-SheetFINAL_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 17
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -145,19 +115,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f4d1628c5a6d87ee0800000000000000
-      internalID: -1263023687961535153
+      spriteID: 3c3c3eacf0fb877b0800000000000000
+      internalID: -5226217293014121533
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Hiding-Sheet_1
+      name: Player_Hiding-SheetFINAL_1
       rect:
         serializedVersion: 2
         x: 16
         y: 0
-        width: 17
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -165,21 +135,21 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ab4c0ce6f2b8ef540800000000000000
-      internalID: 5043621668539385018
+      spriteID: 45e9314d91581204a8732f1d2a9edd9d
+      internalID: 1736286773
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Hiding-Sheet_2
+      name: Player_Hiding-SheetFINAL_2
       rect:
         serializedVersion: 2
         x: 32
         y: 0
-        width: 17
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -187,21 +157,21 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: de4298b8e10fb9140800000000000000
-      internalID: 4727636247836173549
+      spriteID: 2d953976a4847a643b119c8726395ea4
+      internalID: 1404946517
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Hiding-Sheet_3
+      name: Player_Hiding-SheetFINAL_3
       rect:
         serializedVersion: 2
         x: 48
         y: 0
-        width: 17
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -209,21 +179,21 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: de0108de6e5dd6ee0800000000000000
-      internalID: -1266120732417453843
+      spriteID: cc81c10d05f259c4b85004134abb43e0
+      internalID: -1217627121
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Hiding-Sheet_4
+      name: Player_Hiding-SheetFINAL_4
       rect:
         serializedVersion: 2
         x: 64
         y: 0
-        width: 17
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -231,21 +201,21 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4bde2d3c2d0f222f0800000000000000
-      internalID: -998971379303649868
+      spriteID: 79b3ccd1753edef46aad1854f525f652
+      internalID: 930869437
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Hiding-Sheet_5
+      name: Player_Hiding-SheetFINAL_5
       rect:
         serializedVersion: 2
         x: 80
         y: 0
-        width: 17
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -253,21 +223,21 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 269c22cf716df7cc0800000000000000
-      internalID: -3711012169427269278
+      spriteID: c428dcdce06179e418fb1a6a20c4cce0
+      internalID: 1033748397
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Hiding-Sheet_6
+      name: Player_Hiding-SheetFINAL_6
       rect:
         serializedVersion: 2
         x: 96
         y: 0
-        width: 17
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -275,21 +245,21 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2183a6029f1a38120800000000000000
-      internalID: 2414951916563478546
+      spriteID: ca2d2347028b4b44cbd288af733e7afb
+      internalID: 687636263
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Hiding-Sheet_7
+      name: Player_Hiding-SheetFINAL_7
       rect:
         serializedVersion: 2
         x: 112
         y: 0
-        width: 17
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -297,21 +267,21 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8503ee6d1441e0ef0800000000000000
-      internalID: -140152265390542760
+      spriteID: 279002f104233314a93ca7700023fdb4
+      internalID: 1919743928
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Hiding-Sheet_8
+      name: Player_Hiding-SheetFINAL_8
       rect:
         serializedVersion: 2
         x: 128
         y: 0
-        width: 17
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -319,21 +289,21 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7fddab29939fab3a0800000000000000
-      internalID: -6648727874188943881
+      spriteID: 1b005654eb25bcf45ba1e8c5f66595dc
+      internalID: -1260814395
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Hiding-Sheet_9
+      name: Player_Hiding-SheetFINAL_9
       rect:
         serializedVersion: 2
         x: 144
         y: 0
-        width: 17
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -341,16 +311,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 80857f8b321904570800000000000000
-      internalID: 8448912483560151048
+      spriteID: 46b5f57070ac63b46ab64a526f573d14
+      internalID: 1882638315
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Hiding-Sheet_10
+      name: Player_Hiding-SheetFINAL_10
       rect:
         serializedVersion: 2
         x: 160
@@ -363,10 +333,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: be99d66f5b23ccbf0800000000000000
-      internalID: -302811317835818517
+      spriteID: cfc7ec3cdefca1f46bae3428ae298ba0
+      internalID: -698585931
       vertices: []
       indices: 
       edges: []
@@ -375,7 +345,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 003ca1c5a3b4b3f488eb191f2d43a965
     internalID: 0
     vertices: []
     indices: 
@@ -385,17 +355,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Player_Hiding-Sheet_0: -1263023687961535153
-      Player_Hiding-Sheet_1: 5043621668539385018
-      Player_Hiding-Sheet_10: -302811317835818517
-      Player_Hiding-Sheet_2: 4727636247836173549
-      Player_Hiding-Sheet_3: -1266120732417453843
-      Player_Hiding-Sheet_4: -998971379303649868
-      Player_Hiding-Sheet_5: -3711012169427269278
-      Player_Hiding-Sheet_6: 2414951916563478546
-      Player_Hiding-Sheet_7: -140152265390542760
-      Player_Hiding-Sheet_8: -6648727874188943881
-      Player_Hiding-Sheet_9: 8448912483560151048
+      Player_Hiding-SheetFINAL_0: -5226217293014121533
+      Player_Hiding-SheetFINAL_1: 1736286773
+      Player_Hiding-SheetFINAL_10: -698585931
+      Player_Hiding-SheetFINAL_2: 1404946517
+      Player_Hiding-SheetFINAL_3: -1217627121
+      Player_Hiding-SheetFINAL_4: 930869437
+      Player_Hiding-SheetFINAL_5: 1033748397
+      Player_Hiding-SheetFINAL_6: 687636263
+      Player_Hiding-SheetFINAL_7: 1919743928
+      Player_Hiding-SheetFINAL_8: -1260814395
+      Player_Hiding-SheetFINAL_9: 1882638315
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

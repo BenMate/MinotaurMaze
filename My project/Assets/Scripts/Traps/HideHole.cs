@@ -1,38 +1,63 @@
+using System.Collections;
 using UnityEngine;
 
 public class HideHole : MonoBehaviour
 {
+    [Header("Eyes Tilemap")]
+    [SerializeField] private GameObject eyesTilemap;
+
+    [Header("AI")]
     [SerializeField] private MinotaurAI minotaur;
+
+    private void Awake()
+    {
+        // Make sure the animated eyes are hidden at the start
+        if (eyesTilemap != null)
+            eyesTilemap.SetActive(false);
+    }
 
     public void Interact(PlayerController player)
     {
-        //tries to exit hole
+        // Leave the hole
         if (player.IsHidden)
         {
+            if (eyesTilemap != null)
+                eyesTilemap.SetActive(false);
+
             player.HidePlayer(false);
+
             return;
         }
 
-        //player tried to hide while beind chased
-        if (minotaur != null && !minotaur.CanPlayerNotHide())
-            return;
-
-        //player is now hidden
-        player.HidePlayer(true);
-
+        // Begin hiding
+        player.HidePlayer(true, () =>
+        {
+            if (eyesTilemap != null)
+                eyesTilemap.SetActive(true);
+        });
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private IEnumerator ShowEyes()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        if (eyesTilemap != null)
+            eyesTilemap.SetActive(true);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
 
-        if (player != null) player.SetCurrentHideHole(this);
+        if (player != null)
+            player.SetCurrentHideHole(this);
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
 
-        if (player != null) player.ClearCurrentHideHole(this);
+        if (player != null)
+            player.ClearCurrentHideHole(this);
     }
 }

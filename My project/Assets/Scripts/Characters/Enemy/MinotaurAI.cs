@@ -325,6 +325,24 @@ public class MinotaurAI : MonoBehaviour
         animator.SetFloat("MoveY", lastMoveDirection.y);
     }
 
+    public void PlayerFinishedHiding()
+    {
+        // Ignore if we weren't chasing the player.
+        if (currentState != State.Hunt)
+            return;
+
+        // Remember where the player disappeared.
+        lastKnownPlayerPos = player.position;
+
+        // Stop chasing immediately.
+        agent.ResetPath();
+        agent.isStopped = true;
+
+        // Begin searching around the hide spot.
+        ChangeState(State.Search);
+    }
+
+
     public bool CanPlayerNotHide()
     {
         if (currentState == State.Hunt && canSeePlayer)

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInput))]
@@ -13,6 +14,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minZoom = 1.0f;
     [SerializeField] private float maxZoom = 10.0f;
 
+    [Header("- Hide Settings -")]
+    [SerializeField] private float hideFadeDuration = 0.3f;
+
     [Header("- Components -")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerInput inputs;
@@ -20,13 +24,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private CapsuleCollider2D cc;
+    [SerializeField] private MinotaurAI minotaur;
 
     private Vector2 lastMoveDirection = Vector2.down;
     private bool movementLocked = false;
-
     private float speedMultiplier = 1f;
 
     private HideHole currentHideHole;
+    private Coroutine fadeCoroutine;
+
 
     public bool IsHidden { get; private set; }
 
@@ -118,15 +124,53 @@ public class PlayerController : MonoBehaviour
         animator.speed = 1f;
     }
 
-    public void HidePlayer(bool isPlayerHiding)
+    public void HidePlayer(bool hide, System.Action onComplete = null)
     {
-        IsHidden = isPlayerHiding;
-        movementLocked = isPlayerHiding;
+        if (fadeCoroutine != null)
+            StopCoroutine(fadeCoroutine);
 
-        spriteRenderer.color = isPlayerHiding ? Color.clear : Color.white;
+        fadeCoroutine = StartCoroutine(FadePlayer(hide, onComplete));
+    }
 
-        if (cc != null)
-            cc.enabled = !isPlayerHiding;
+    private IEnumerator FadePlayer(bool hide, System.Action onComplete)
+    {
+        movementLocked = true;
+
+        float startAlpha = spriteRenderer.color.a;
+        float targetAlpha = hide ? 0f : 1f;
+
+        float elapsed = 0f;
+
+        while (elapsed < hideFadeDuration)
+        {
+            elapsed += Time.deltaTime;
+
+            float alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / hideFadeDuration);
+
+            Color c = spriteRenderer.color;
+            c.a = alpha;
+            spriteRenderer.color = c;
+
+            yield return null;
+        }
+
+        Color final = spriteRenderer.color;
+        final.a = targetAlpha;
+        spriteRenderer.color = final;
+
+        IsHidden = hide;
+
+        if (hide)
+        {
+            if (minotaur != null)
+                minotaur.PlayerFinishedHiding();
+        }
+        else
+        {
+            movementLocked = false;
+        }
+
+        onComplete?.Invoke();
     }
 
     public void SetCurrentHideHole(HideHole hole)
