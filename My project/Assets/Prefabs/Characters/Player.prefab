@@ -104,7 +104,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2311659948842064771, guid: b61514df0e382b44aa06dfbe7169a1a6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
   leftClicked: 0
   isLeftClicking: 0
   mouseWheel: 0
+  interactPressed: 0
 --- !u!114 &4612813461106374587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,9 +215,14 @@ MonoBehaviour:
   zoomSpeed: 3
   minZoom: 1.5
   maxZoom: 20
+  hideFadeDuration: 0.3
   rb: {fileID: 6460539507440416316}
   inputs: {fileID: 2708768091981298912}
   cam: {fileID: 438780809672970961}
+  animator: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  cc: {fileID: 0}
+  minotaur: {fileID: 0}
 --- !u!1 &3677447154329473113
 GameObject:
   m_ObjectHideFlags: 0
