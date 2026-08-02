@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
     private HideHole currentHideHole;
     private Coroutine fadeCoroutine;
-
+    private NPCDialogue currentNPC;
 
     public bool IsHidden { get; private set; }
 
@@ -63,9 +63,23 @@ public class PlayerController : MonoBehaviour
             );
         }
 
-        if (inputs.interactPressed && currentHideHole != null)
+        if (inputs.interactPressed)
         {
-            currentHideHole.Interact(this);
+            if (DialogueManager.Instance != null &&
+                DialogueManager.Instance.IsTalking)
+            {
+                DialogueManager.Instance.NextLine();
+            }
+            else if (currentNPC != null)
+            {
+                currentNPC.Interact(this);
+                animator.SetFloat("MoveX", 0.0f);
+                animator.SetFloat("MoveY", 0.0f);
+            }
+            else if (currentHideHole != null)
+            {
+                currentHideHole.Interact(this);
+            }
         }
     }
 
@@ -73,6 +87,13 @@ public class PlayerController : MonoBehaviour
     {
         if (inputs == null || movementLocked)
             return;
+
+        if (DialogueManager.Instance != null &&
+            DialogueManager.Instance.IsTalking)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
 
         Vector2 movement = inputs.moveInputs;
 
@@ -188,5 +209,15 @@ public class PlayerController : MonoBehaviour
     {
         movementLocked = true;
         spriteRenderer.color = Color.clear;
+    }
+    public void SetCurrentNPC(NPCDialogue npc)
+    {
+        currentNPC = npc;
+    }
+
+    public void ClearCurrentNPC(NPCDialogue npc)
+    {
+        if (currentNPC == npc)
+            currentNPC = null;
     }
 }
