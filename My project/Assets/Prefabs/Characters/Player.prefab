@@ -219,9 +219,9 @@ MonoBehaviour:
   rb: {fileID: 6460539507440416316}
   inputs: {fileID: 2708768091981298912}
   cam: {fileID: 438780809672970961}
-  animator: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  cc: {fileID: 0}
+  animator: {fileID: -2499044451184264755}
+  spriteRenderer: {fileID: 3324954875783367256}
+  cc: {fileID: 6869402597391479886}
   minotaur: {fileID: 0}
 --- !u!1 &3677447154329473113
 GameObject:
@@ -407,7 +407,7 @@ MonoBehaviour:
   m_ComponentVersion: 2
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.833
+  m_FalloffIntensity: 0.892
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1

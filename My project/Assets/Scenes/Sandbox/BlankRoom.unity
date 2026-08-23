@@ -558,46 +558,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2363480592337319171, guid: 66ae89c35a9fb44418c6f09e80a7170a, type: 3}
-      propertyPath: m_Speed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3301234282291672518, guid: 66ae89c35a9fb44418c6f09e80a7170a, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3579435552484059660, guid: 66ae89c35a9fb44418c6f09e80a7170a, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 258845701}
     - target: {fileID: 3579435552484059660, guid: 66ae89c35a9fb44418c6f09e80a7170a, type: 3}
-      propertyPath: grabRange
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3579435552484059660, guid: 66ae89c35a9fb44418c6f09e80a7170a, type: 3}
-      propertyPath: killRange
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3579435552484059660, guid: 66ae89c35a9fb44418c6f09e80a7170a, type: 3}
-      propertyPath: grabWindup
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3579435552484059660, guid: 66ae89c35a9fb44418c6f09e80a7170a, type: 3}
-      propertyPath: sightRange
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3579435552484059660, guid: 66ae89c35a9fb44418c6f09e80a7170a, type: 3}
       propertyPath: sceneManager
       value: 
       objectReference: {fileID: 979177781}
-    - target: {fileID: 3579435552484059660, guid: 66ae89c35a9fb44418c6f09e80a7170a, type: 3}
-      propertyPath: wallMask.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 3579435552484059660, guid: 66ae89c35a9fb44418c6f09e80a7170a, type: 3}
-      propertyPath: closeAwarenessRange
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6885741180730453290, guid: 66ae89c35a9fb44418c6f09e80a7170a, type: 3}
       propertyPath: m_Name
       value: Minatour
@@ -806,25 +774,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -2499044451184264755, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 9ea09c8eed4d6174aa4878e1ac8a71fb, type: 2}
     - target: {fileID: 498372856782927118, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3324954875783367256, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3521932749563210085, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.6
+      value: 23.48
       objectReference: {fileID: 0}
     - target: {fileID: 3521932749563210085, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.11
+      value: 8.24
       objectReference: {fileID: 0}
     - target: {fileID: 3521932749563210085, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
       propertyPath: m_LocalPosition.z
@@ -859,29 +819,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4612813461106374587, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
-      propertyPath: cc
-      value: 
-      objectReference: {fileID: 867716924}
-    - target: {fileID: 4612813461106374587, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 867716920}
-    - target: {fileID: 4612813461106374587, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
       propertyPath: minotaur
       value: 
       objectReference: {fileID: 1499838468}
-    - target: {fileID: 4612813461106374587, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
-      propertyPath: spriteRenderer
-      value: 
-      objectReference: {fileID: 867716925}
-    - target: {fileID: 5420715144801462082, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
-      propertyPath: m_FalloffIntensity
-      value: 0.892
-      objectReference: {fileID: 0}
-    - target: {fileID: 6869402597391479886, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -949,21 +889,6 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1280480201504833228, guid: 373903f45b4db39479ef9298f231b9b9, type: 3}
   m_PrefabInstance: {fileID: 288130368}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &867716920 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: -2499044451184264755, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
-  m_PrefabInstance: {fileID: 709205737}
-  m_PrefabAsset: {fileID: 0}
---- !u!70 &867716924 stripped
-CapsuleCollider2D:
-  m_CorrespondingSourceObject: {fileID: 6869402597391479886, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
-  m_PrefabInstance: {fileID: 709205737}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &867716925 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 3324954875783367256, guid: 94d4e92fe290c4840b608310bf0c6c61, type: 3}
-  m_PrefabInstance: {fileID: 709205737}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &915717631 stripped
 Transform:
@@ -19833,6 +19758,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialoguePanel
       objectReference: {fileID: 0}
+    - target: {fileID: 3847252808383182290, guid: b8f660b7e8140604a8bf26879dd8108d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9043425828714939745, guid: b8f660b7e8140604a8bf26879dd8108d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -20153,6 +20082,10 @@ PrefabInstance:
     - target: {fileID: 7981233564253134788, guid: 8894369ac83afd44891366a1744f7159, type: 3}
       propertyPath: m_Name
       value: GameOverScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981233564253134788, guid: 8894369ac83afd44891366a1744f7159, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
