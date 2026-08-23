@@ -1017,6 +1017,7 @@ MonoBehaviour:
   loadScene: 1
   scenesToHideOnStart:
   - {fileID: 1643380748}
+  - {fileID: 410243179}
   deathScene: {fileID: 1643380748}
 --- !u!1 &1104500940
 GameObject:
@@ -19828,21 +19829,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 675435870}
     m_Modifications:
-    - target: {fileID: 2477678720107388850, guid: b8f660b7e8140604a8bf26879dd8108d, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -41.545044
-      objectReference: {fileID: 0}
-    - target: {fileID: 2477678720107388850, guid: b8f660b7e8140604a8bf26879dd8108d, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -3.4774017
-      objectReference: {fileID: 0}
     - target: {fileID: 3847252808383182290, guid: b8f660b7e8140604a8bf26879dd8108d, type: 3}
       propertyPath: m_Name
       value: DialoguePanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 3847252808383182290, guid: b8f660b7e8140604a8bf26879dd8108d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9043425828714939745, guid: b8f660b7e8140604a8bf26879dd8108d, type: 3}
       propertyPath: m_Pivot.x
