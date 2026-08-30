@@ -1,32 +1,272 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class NPCDialogue : MonoBehaviour, IInteractable
 {
+    [Serializable]
+    public class DialogueLine
+    {
+        [TextArea(2, 5)]
+        public string text;
+
+        [Header("After This Element")]
+        [Tooltip("NPC moves to the next point on the assigned path.")]
+        public bool moveAfter;
+
+        [Tooltip("Automatically continue to the next dialogue element.")]
+        public bool autoNext;
+    }
+
+    [Serializable]
+    public class Conversation
+    {
+        public DialogueLine[] lines;
+    }
+
     [Header("Dialogue")]
     [SerializeField] private Conversation[] conversations;
 
+    [Header("NPC Path")]
+    [SerializeField] private NPCPath npcPath;
+
+    [Header("NPC Movement")]
+    [SerializeField] private float moveSpeed = 2f;
+
     private int conversationIndex;
+    private int currentPathPoint;
 
     private PlayerController currentPlayer;
 
+    public static bool AnyEventRunning { get; private set; }
+
+    public bool EventRunning { get; private set; }
+
+
+    // ---------------------------------------------------------
+    // INTERACTION
+    // ---------------------------------------------------------
+
     public void Interact(PlayerController player)
     {
+        if (DialogueManager.Instance == null)
+            return;
+
         if (DialogueManager.Instance.IsTalking)
+            return;
+
+        if (EventRunning || AnyEventRunning)
+            return;
+
+        if (conversations == null ||
+            conversations.Length == 0)
+            return;
+
+        if (conversations[conversationIndex].lines == null ||
+            conversations[conversationIndex].lines.Length == 0)
             return;
 
         currentPlayer = player;
 
-        DialogueManager.Instance.StartConversation(
-            this,
-            conversations[conversationIndex]);
+        DialogueManager.Instance.StartConversation(this,conversations[conversationIndex],player);
     }
+
+
+    // ---------------------------------------------------------
+    // CONVERSATION FINISHED
+    // ---------------------------------------------------------
 
     public void ConversationFinished()
     {
+        // Advance to the next conversation.
+        //
+        // Once we reach the final conversation,
+        // keep repeating that final conversation.
         conversationIndex = Mathf.Min(
             conversationIndex + 1,
-            conversations.Length - 1);
+            conversations.Length - 1
+        );
     }
+
+
+    // ---------------------------------------------------------
+    // RUN LINE ACTION
+    // ---------------------------------------------------------
+
+    public IEnumerator RunLineAction(DialogueLine line)
+    {
+        if (line == null)
+            yield break;
+
+        if (!line.moveAfter)
+            yield break;
+
+        yield return StartCoroutine(
+            MoveToNextPoint()
+        );
+    }
+
+
+    // ---------------------------------------------------------
+    // MOVE TO NEXT PATH POINT
+    // ---------------------------------------------------------
+
+    private IEnumerator MoveToNextPoint()
+    {
+        if (npcPath == null)
+            yield break;
+
+        // NPC starts at Point 0.
+        //
+        // First move:
+        // Point 0 -> Point 1
+        //
+        // Second move:
+        // Point 1 -> Point 2
+        //
+        // etc.
+
+        int nextPoint = currentPathPoint + 1;
+
+        Transform target =
+            npcPath.GetPoint(nextPoint);
+
+        // No point exists.
+        // Simply do nothing.
+        if (target == null)
+            yield break;
+
+        currentPathPoint = nextPoint;
+
+        Rigidbody2D rb =
+            GetComponent<Rigidbody2D>();
+
+        Animator animator =
+            GetComponent<Animator>();
+
+
+        // -----------------------------------------------------
+        // WALK
+        // -----------------------------------------------------
+
+        while (
+            Vector2.Distance(
+                transform.position,
+                target.position
+            ) > 0.05f)
+        {
+            Vector2 direction =
+                (
+                    (Vector2)target.position -
+                    (Vector2)transform.position
+                ).normalized;
+
+
+            if (animator != null)
+            {
+                animator.SetBool(
+                    "IsMoving",
+                    true
+                );
+
+
+                // Horizontal movement.
+                if (Mathf.Abs(direction.x) >
+                    Mathf.Abs(direction.y))
+                {
+                    animator.SetFloat(
+                        "MoveX",
+                        Mathf.Sign(direction.x)
+                    );
+
+                    animator.SetFloat(
+                        "MoveY",
+                        0f
+                    );
+                }
+
+                // Vertical movement.
+                else
+                {
+                    animator.SetFloat(
+                        "MoveX",
+                        0f
+                    );
+
+                    animator.SetFloat(
+                        "MoveY",
+                        Mathf.Sign(direction.y)
+                    );
+                }
+            }
+
+
+            Vector2 newPosition =
+                Vector2.MoveTowards(
+                    transform.position,
+                    target.position,
+                    moveSpeed * Time.deltaTime
+                );
+
+
+            if (rb != null)
+            {
+                rb.MovePosition(newPosition);
+            }
+            else
+            {
+                transform.position = newPosition;
+            }
+
+
+            yield return null;
+        }
+
+
+        // -----------------------------------------------------
+        // SNAP TO POINT
+        // -----------------------------------------------------
+
+        if (rb != null)
+        {
+            rb.MovePosition(
+                target.position
+            );
+        }
+        else
+        {
+            transform.position =
+                target.position;
+        }
+
+
+        // -----------------------------------------------------
+        // RETURN TO IDLE FACING DOWN
+        // -----------------------------------------------------
+
+        if (animator != null)
+        {
+            animator.SetBool(
+                "IsMoving",
+                false
+            );
+
+            animator.SetFloat(
+                "MoveX",
+                0f
+            );
+
+            animator.SetFloat(
+                "MoveY",
+                -1f
+            );
+        }
+    }
+
+
+    // ---------------------------------------------------------
+    // PLAYER DETECTION
+    // ---------------------------------------------------------
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -36,6 +276,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         if (player != null)
             player.SetCurrentNPC(this);
     }
+
 
     private void OnTriggerExit2D(Collider2D other)
     {

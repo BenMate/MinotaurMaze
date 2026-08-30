@@ -220,4 +220,20 @@ public class PlayerController : MonoBehaviour
         if (currentNPC == npc)
             currentNPC = null;
     }
+
+    public void SetMovementLocked(bool locked)
+    {
+        movementLocked = locked;
+
+        Debug.Log(
+            $"[PLAYER] Movement Locked = {locked}"
+        );
+
+        if (locked)
+        {
+            rb.linearVelocity = Vector2.zero;
+
+            animator.SetBool("IsMoving", false);
+        }
+    }
 }
