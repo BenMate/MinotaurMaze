@@ -1,67 +1,10 @@
 fileFormatVersion: 2
-guid: 15b886d21cf2d1f4fb2a09422aa5cc51
+guid: cc9c685a1208a4246820feaf69dc7a01
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4714287801988808923
-    second: SPRITE_SHEET-ASSETS_0
-  - first:
-      213: 5186771015712099153
-    second: SPRITE_SHEET-ASSETS_1
-  - first:
-      213: 5980716053503724379
-    second: SPRITE_SHEET-ASSETS_2
-  - first:
-      213: -6358043956611255085
-    second: SPRITE_SHEET-ASSETS_3
-  - first:
-      213: 6848133592200229228
-    second: SPRITE_SHEET-ASSETS_4
-  - first:
-      213: -2712405222303198701
-    second: SPRITE_SHEET-ASSETS_5
-  - first:
-      213: -2878740529133034794
-    second: SPRITE_SHEET-ASSETS_6
-  - first:
-      213: -58822826260176102
-    second: SPRITE_SHEET-ASSETS_7
-  - first:
-      213: 2379957018175955109
-    second: SPRITE_SHEET-ASSETS_8
-  - first:
-      213: -6210104712528656796
-    second: SPRITE_SHEET-ASSETS_9
-  - first:
-      213: -458093859244426513
-    second: SPRITE_SHEET-ASSETS_10
-  - first:
-      213: 854529649166012421
-    second: SPRITE_SHEET-ASSETS_11
-  - first:
-      213: -3293355610065982148
-    second: SPRITE_SHEET-ASSETS_12
-  - first:
-      213: 9219583423577696346
-    second: SPRITE_SHEET-ASSETS_13
-  - first:
-      213: 4471674081745672691
-    second: SPRITE_SHEET-ASSETS_14
-  - first:
-      213: 3719791627917600401
-    second: SPRITE_SHEET-ASSETS_15
-  - first:
-      213: -4891230915428504286
-    second: SPRITE_SHEET-ASSETS_16
-  - first:
-      213: 2037858239700930781
-    second: SPRITE_SHEET-ASSETS_17
-  - first:
-      213: 3567184114765271464
-    second: SPRITE_SHEET-ASSETS_18
-  - first:
-      213: -5530711130288858214
-    second: SPRITE_SHEET-ASSETS_19
+      213: -30763873734762887
+    second: Bloodied_Tiles_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -157,51 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 80
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bd0008e47c38c6140800000000000000
-      internalID: 4714287801988808923
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 80
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 15bcfc212cc1bf740800000000000000
-      internalID: 5186771015712099153
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_2
+      name: Bloodied_Tiles_0
       rect:
         serializedVersion: 2
         x: 0
@@ -216,14 +115,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b5bc09f3095cff250800000000000000
-      internalID: 5980716053503724379
+      spriteID: 97edf1a7b64b29ff0800000000000000
+      internalID: -30763873734762887
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_3
+      name: Bloodied_Tiles_1
       rect:
         serializedVersion: 2
         x: 16
@@ -236,16 +135,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3d4fdd335b0b3c7a0800000000000000
-      internalID: -6358043956611255085
+      spriteID: 6b6987321d74c4c42851590a964774ae
+      internalID: -434956476
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_4
+      name: Bloodied_Tiles_2
       rect:
         serializedVersion: 2
         x: 32
@@ -258,16 +157,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c61b3891835790f50800000000000000
-      internalID: 6848133592200229228
+      spriteID: 93252453856079a499da254ccc2d2ccb
+      internalID: -590880308
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_5
+      name: Bloodied_Tiles_3
       rect:
         serializedVersion: 2
         x: 48
@@ -280,16 +179,38 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 31214bd32d99b5ad0800000000000000
-      internalID: -2712405222303198701
+      spriteID: 8cf015557fd9548469d06eb92c962d8b
+      internalID: -1779588413
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_6
+      name: Bloodied_Tiles_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6a615b10ef264b4698772d72f3f07f5
+      internalID: -628952210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloodied_Tiles_5
       rect:
         serializedVersion: 2
         x: 0
@@ -302,16 +223,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6d26180bdb8ac08d0800000000000000
-      internalID: -2878740529133034794
+      spriteID: 1515283aacf545140aec86551f37a761
+      internalID: 372169406
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_7
+      name: Bloodied_Tiles_6
       rect:
         serializedVersion: 2
         x: 16
@@ -324,16 +245,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a13e31083f40f2ff0800000000000000
-      internalID: -58822826260176102
+      spriteID: 0ce954652cce534448ab5e29ccd8b8bd
+      internalID: -1438185270
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_8
+      name: Bloodied_Tiles_7
       rect:
         serializedVersion: 2
         x: 32
@@ -346,16 +267,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5a063196c4e470120800000000000000
-      internalID: 2379957018175955109
+      spriteID: b9664ada769609c42b9bd63e3dea1193
+      internalID: 2023928497
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_9
+      name: Bloodied_Tiles_8
       rect:
         serializedVersion: 2
         x: 48
@@ -368,16 +289,82 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 46600cf9aa641d9a0800000000000000
-      internalID: -6210104712528656796
+      spriteID: 2d1c4a12c14403e42ab3c01f00242f5b
+      internalID: 292362988
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_10
+      name: Bloodied_Tiles_9
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16ffadb669e0c864da3ac34ee424c397
+      internalID: 273484580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloodied_Tiles_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 714ea891cecd368428916ecf99d52ce1
+      internalID: 627588316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloodied_Tiles_11
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9a3279c695ca7b498ef017b5ff99ea1
+      internalID: 50636537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloodied_Tiles_12
       rect:
         serializedVersion: 2
         x: 32
@@ -390,16 +377,60 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: feab2f5ef0684a9f0800000000000000
-      internalID: -458093859244426513
+      spriteID: 53baa06b4980f844aa8b59b800016dff
+      internalID: -218185649
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_11
+      name: Bloodied_Tiles_13
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2d989a2af8c2d44a849911971a876cd
+      internalID: -655902828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloodied_Tiles_14
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 522a96b425c056d4ab05723c0ab77190
+      internalID: 1236176361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloodied_Tiles_15
       rect:
         serializedVersion: 2
         x: 0
@@ -412,16 +443,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 500549c3036ebdb00800000000000000
-      internalID: 854529649166012421
+      spriteID: 55f6b19fddc30cb4bbe16b06445655cb
+      internalID: 843549503
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_12
+      name: Bloodied_Tiles_16
       rect:
         serializedVersion: 2
         x: 16
@@ -434,16 +465,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c3d2af68586ab42d0800000000000000
-      internalID: -3293355610065982148
+      spriteID: a3f15bff7ac02e54c8672ecbdfd53c03
+      internalID: -1012630332
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_13
+      name: Bloodied_Tiles_17
       rect:
         serializedVersion: 2
         x: 32
@@ -456,16 +487,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a58ad6bb64a82ff70800000000000000
-      internalID: 9219583423577696346
+      spriteID: bab40c8cbe1a01746b7728587f8bf040
+      internalID: -1872030291
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_14
+      name: Bloodied_Tiles_18
       rect:
         serializedVersion: 2
         x: 48
@@ -478,16 +509,38 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3f995c9a2e39e0e30800000000000000
-      internalID: 4471674081745672691
+      spriteID: ca7be0d814967914f9b4a60c6a7f6f47
+      internalID: -1803128408
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_15
+      name: Bloodied_Tiles_19
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53522c3576ec1da4bafca8d029284b12
+      internalID: -122365341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloodied_Tiles_20
       rect:
         serializedVersion: 2
         x: 0
@@ -500,16 +553,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 196208cf6ca5f9330800000000000000
-      internalID: 3719791627917600401
+      spriteID: 430345fcfb4fe0c479494dbacc9dd259
+      internalID: 60009828
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_16
+      name: Bloodied_Tiles_21
       rect:
         serializedVersion: 2
         x: 16
@@ -522,16 +575,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 22da973b56bde1cb0800000000000000
-      internalID: -4891230915428504286
+      spriteID: 0a9773aac3d77ad48846ea4cb0263315
+      internalID: -1326029153
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPRITE_SHEET-ASSETS_17
+      name: Bloodied_Tiles_22
       rect:
         serializedVersion: 2
         x: 32
@@ -544,10 +597,54 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: dd01aff954de74c10800000000000000
-      internalID: 2037858239700930781
+      spriteID: 976c64268bd13da4aa02288be0d3dde4
+      internalID: -1762775623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloodied_Tiles_23
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de05d326cb0ac874ea2f93b83d583fb0
+      internalID: 1898767424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloodied_Tiles_24
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0449c388be5fee4e9734a0b847dd192
+      internalID: 151269861
       vertices: []
       indices: 
       edges: []
@@ -556,7 +653,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 67049b291e338e242aa09db5f6cd30e8
+    spriteID: 81b89d4c3330a704eac745da5fe7f2ea
     internalID: 0
     vertices: []
     indices: 
@@ -566,24 +663,31 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SPRITE_SHEET-ASSETS_0: 4714287801988808923
-      SPRITE_SHEET-ASSETS_1: 5186771015712099153
-      SPRITE_SHEET-ASSETS_10: -458093859244426513
-      SPRITE_SHEET-ASSETS_11: 854529649166012421
-      SPRITE_SHEET-ASSETS_12: -3293355610065982148
-      SPRITE_SHEET-ASSETS_13: 9219583423577696346
-      SPRITE_SHEET-ASSETS_14: 4471674081745672691
-      SPRITE_SHEET-ASSETS_15: 3719791627917600401
-      SPRITE_SHEET-ASSETS_16: -4891230915428504286
-      SPRITE_SHEET-ASSETS_17: 2037858239700930781
-      SPRITE_SHEET-ASSETS_2: 5980716053503724379
-      SPRITE_SHEET-ASSETS_3: -6358043956611255085
-      SPRITE_SHEET-ASSETS_4: 6848133592200229228
-      SPRITE_SHEET-ASSETS_5: -2712405222303198701
-      SPRITE_SHEET-ASSETS_6: -2878740529133034794
-      SPRITE_SHEET-ASSETS_7: -58822826260176102
-      SPRITE_SHEET-ASSETS_8: 2379957018175955109
-      SPRITE_SHEET-ASSETS_9: -6210104712528656796
+      Bloodied_Tiles_0: -30763873734762887
+      Bloodied_Tiles_1: -434956476
+      Bloodied_Tiles_10: 627588316
+      Bloodied_Tiles_11: 50636537
+      Bloodied_Tiles_12: -218185649
+      Bloodied_Tiles_13: -655902828
+      Bloodied_Tiles_14: 1236176361
+      Bloodied_Tiles_15: 843549503
+      Bloodied_Tiles_16: -1012630332
+      Bloodied_Tiles_17: -1872030291
+      Bloodied_Tiles_18: -1803128408
+      Bloodied_Tiles_19: -122365341
+      Bloodied_Tiles_2: -590880308
+      Bloodied_Tiles_20: 60009828
+      Bloodied_Tiles_21: -1326029153
+      Bloodied_Tiles_22: -1762775623
+      Bloodied_Tiles_23: 1898767424
+      Bloodied_Tiles_24: 151269861
+      Bloodied_Tiles_3: -1779588413
+      Bloodied_Tiles_4: -628952210
+      Bloodied_Tiles_5: 372169406
+      Bloodied_Tiles_6: -1438185270
+      Bloodied_Tiles_7: 2023928497
+      Bloodied_Tiles_8: 292362988
+      Bloodied_Tiles_9: 273484580
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
