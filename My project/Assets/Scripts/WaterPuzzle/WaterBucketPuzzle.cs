@@ -21,6 +21,8 @@ public class WaterBucketPuzzle : MonoBehaviour
     [SerializeField] private WaterBucketHUD bucketHUD;
 
     private bool puzzleSolved;
+    private bool hasBucket;
+    public bool HasBucket => hasBucket;
 
     // The actual player who picked up the bucket.
     private PlayerController currentPlayer;
@@ -75,6 +77,7 @@ public class WaterBucketPuzzle : MonoBehaviour
             return;
 
         currentPlayer = player;
+        hasBucket = true;
     }
 
 

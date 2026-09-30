@@ -104,6 +104,9 @@ public class WaterBucket : MonoBehaviour, IInteractable
         if (puzzle == null)
             return;
 
+        if (!puzzle.HasBucket)
+            return;
+
         // This is a stationary bucket.
         //
         // The player's carried bucket is always

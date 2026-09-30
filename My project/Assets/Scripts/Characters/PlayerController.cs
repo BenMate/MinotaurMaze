@@ -64,23 +64,7 @@ public class PlayerController : MonoBehaviour
                 maxZoom
             );
         }
-        //temp
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (DialogueManager.Instance != null &&
-                DialogueManager.Instance.IsTalking)
-            {
-                return;
-            }
-
-            if (waterBucketPuzzle != null &&
-                waterBucketPuzzle.Bucket3L != null)
-            {
-                waterBucketPuzzle.Empty(
-                    waterBucketPuzzle.Bucket3L
-                );
-            }
-        }
+                 
         if (inputs.interactPressed)
         {
             if (DialogueManager.Instance != null &&
@@ -104,8 +88,6 @@ public class PlayerController : MonoBehaviour
                 currentWaterInteractable.Interact(this);
             }
         }
-
-
     }
 
     void FixedUpdate()

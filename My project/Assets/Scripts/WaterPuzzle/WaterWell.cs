@@ -15,6 +15,9 @@ public class WaterWell : MonoBehaviour, IInteractable
         if (puzzle == null)
             return;
 
+        if (!puzzle.HasBucket)
+            return;
+
         WaterBucket bucket =
             puzzle.Bucket3L;
 
