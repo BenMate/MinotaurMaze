@@ -25,15 +25,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private CapsuleCollider2D cc;
     [SerializeField] private MinotaurAI minotaur;
-
+    [SerializeField] private WaterBucketPuzzle waterBucketPuzzle;
     private Vector2 lastMoveDirection = Vector2.down;
     private bool movementLocked = false;
     private float speedMultiplier = 1f;
 
     private HideHole currentHideHole;
     private Coroutine fadeCoroutine;
+
     private NPCDialogue currentNPC;
 
+    private IInteractable currentWaterInteractable;
     public bool IsHidden { get; private set; }
 
     void Awake()
@@ -62,7 +64,23 @@ public class PlayerController : MonoBehaviour
                 maxZoom
             );
         }
+        //temp
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (DialogueManager.Instance != null &&
+                DialogueManager.Instance.IsTalking)
+            {
+                return;
+            }
 
+            if (waterBucketPuzzle != null &&
+                waterBucketPuzzle.Bucket3L != null)
+            {
+                waterBucketPuzzle.Empty(
+                    waterBucketPuzzle.Bucket3L
+                );
+            }
+        }
         if (inputs.interactPressed)
         {
             if (DialogueManager.Instance != null &&
@@ -73,6 +91,7 @@ public class PlayerController : MonoBehaviour
             else if (currentNPC != null)
             {
                 currentNPC.Interact(this);
+
                 animator.SetFloat("MoveX", 0.0f);
                 animator.SetFloat("MoveY", 0.0f);
             }
@@ -80,7 +99,13 @@ public class PlayerController : MonoBehaviour
             {
                 currentHideHole.Interact(this);
             }
+            else if (currentWaterInteractable != null)
+            {
+                currentWaterInteractable.Interact(this);
+            }
         }
+
+
     }
 
     void FixedUpdate()
@@ -130,7 +155,7 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("MoveY", 0.0f);
         }
 
-        Debug.Log(movement.magnitude);
+       // Debug.Log(movement.magnitude);
     }
 
     public void ApplyGrabSlow()
@@ -235,5 +260,17 @@ public class PlayerController : MonoBehaviour
 
             animator.SetBool("IsMoving", false);
         }
+    }
+
+
+    public void SetCurrentWaterInteractable(IInteractable interactable)
+    {
+        currentWaterInteractable = interactable;
+    }
+
+    public void ClearCurrentWaterInteractable(IInteractable interactable)
+    {
+        if (currentWaterInteractable == interactable)
+            currentWaterInteractable = null;
     }
 }

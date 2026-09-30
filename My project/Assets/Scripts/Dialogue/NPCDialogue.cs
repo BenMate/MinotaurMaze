@@ -42,6 +42,9 @@ public class NPCDialogue : MonoBehaviour, IInteractable
 
     public bool EventRunning { get; private set; }
 
+    // Used by objects such as the bucket pickup.
+    public event Action<PlayerController> ConversationCompleted;
+
 
     // ---------------------------------------------------------
     // INTERACTION
@@ -68,9 +71,41 @@ public class NPCDialogue : MonoBehaviour, IInteractable
 
         currentPlayer = player;
 
-        DialogueManager.Instance.StartConversation(this,conversations[conversationIndex],player);
+        DialogueManager.Instance.StartConversation(
+            this,
+            conversations[conversationIndex],
+            player
+        );
     }
 
+    // ---------------------------------------------------------
+    // Trigger
+    // ---------------------------------------------------------
+
+    public void TriggerConversation(PlayerController player)
+    {
+        if (DialogueManager.Instance == null)
+            return;
+
+        if (player == null)
+            return;
+
+        if (conversations == null ||
+            conversations.Length == 0)
+            return;
+
+        if (conversations[0].lines == null ||
+            conversations[0].lines.Length == 0)
+            return;
+
+        currentPlayer = player;
+
+        DialogueManager.Instance.StartConversation(
+            this,
+            conversations[0],
+            player
+        );
+    }
 
     // ---------------------------------------------------------
     // CONVERSATION FINISHED
@@ -82,10 +117,14 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         //
         // Once we reach the final conversation,
         // keep repeating that final conversation.
+
         conversationIndex = Mathf.Min(
             conversationIndex + 1,
             conversations.Length - 1
         );
+
+        // Tell optional systems that the conversation has finished.
+        ConversationCompleted?.Invoke(currentPlayer);
     }
 
 
@@ -116,23 +155,11 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         if (npcPath == null)
             yield break;
 
-        // NPC starts at Point 0.
-        //
-        // First move:
-        // Point 0 -> Point 1
-        //
-        // Second move:
-        // Point 1 -> Point 2
-        //
-        // etc.
-
         int nextPoint = currentPathPoint + 1;
 
         Transform target =
             npcPath.GetPoint(nextPoint);
 
-        // No point exists.
-        // Simply do nothing.
         if (target == null)
             yield break;
 
@@ -170,7 +197,6 @@ public class NPCDialogue : MonoBehaviour, IInteractable
                 );
 
 
-                // Horizontal movement.
                 if (Mathf.Abs(direction.x) >
                     Mathf.Abs(direction.y))
                 {
@@ -184,8 +210,6 @@ public class NPCDialogue : MonoBehaviour, IInteractable
                         0f
                     );
                 }
-
-                // Vertical movement.
                 else
                 {
                     animator.SetFloat(
