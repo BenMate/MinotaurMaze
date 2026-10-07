@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private NPCDialogue currentNPC;
 
     private IInteractable currentWaterInteractable;
+    private SlidingTilePuzzle currentSlidingPuzzle;
     public bool IsHidden { get; private set; }
 
     void Awake()
@@ -79,14 +80,19 @@ public class PlayerController : MonoBehaviour
                 animator.SetFloat("MoveX", 0.0f);
                 animator.SetFloat("MoveY", 0.0f);
             }
-            else if (currentHideHole != null)
+            else if (currentHideHole != null) //hidy hole
             {
                 currentHideHole.Interact(this);
             }
-            else if (currentWaterInteractable != null)
+            else if (currentWaterInteractable != null) //water puzzle
             {
                 currentWaterInteractable.Interact(this);
             }
+            else if (currentSlidingPuzzle != null)
+            {
+                currentSlidingPuzzle.Interact(this);
+            }
+
         }
     }
 
@@ -243,8 +249,15 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsMoving", false);
         }
     }
+    public void SetCurrentSlidingPuzzle(SlidingTilePuzzle puzzle)
+    {
+        currentSlidingPuzzle = puzzle;
+    }
 
-
+    public void ClearCurrentSlidingPuzzle( SlidingTilePuzzle puzzle)
+    {
+        if (currentSlidingPuzzle == puzzle) currentSlidingPuzzle = null;
+    }
     public void SetCurrentWaterInteractable(IInteractable interactable)
     {
         currentWaterInteractable = interactable;
