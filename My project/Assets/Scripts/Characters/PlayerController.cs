@@ -37,6 +37,9 @@ public class PlayerController : MonoBehaviour
 
     private IInteractable currentWaterInteractable;
     private SlidingTilePuzzle currentSlidingPuzzle;
+
+    private TeleportDoor currentTeleportDoor;
+
     public bool IsHidden { get; private set; }
 
     void Awake()
@@ -91,6 +94,10 @@ public class PlayerController : MonoBehaviour
             else if (currentSlidingPuzzle != null)
             {
                 currentSlidingPuzzle.Interact(this);
+            }
+            else if (currentTeleportDoor != null)
+            {
+                currentTeleportDoor.Interact(this);
             }
 
         }
@@ -267,5 +274,32 @@ public class PlayerController : MonoBehaviour
     {
         if (currentWaterInteractable == interactable)
             currentWaterInteractable = null;
+    }
+
+    public void SetCurrentTeleportDoor(TeleportDoor door)
+    {
+        currentTeleportDoor = door;
+    }
+
+    public void ClearCurrentTeleportDoor(TeleportDoor door)
+    {
+        if (currentTeleportDoor == door)
+            currentTeleportDoor = null;
+    }
+
+    public void TeleportTo(Vector3 destination)
+    {
+        // Stop any movement before changing position.
+        rb.linearVelocity = Vector2.zero;
+
+        // Keep the Rigidbody2D and Transform in sync.
+        rb.position = new Vector2(destination.x, destination.y);
+
+        transform.position = destination;
+
+        rb.linearVelocity = Vector2.zero;
+
+        // Ensure the player is no longer playing a walking animation.
+        animator.SetBool("IsMoving", false);
     }
 }
