@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -45,9 +46,18 @@ public class MinotaurAI : MonoBehaviour
     private bool isAttemptingGrab;
     private float grabTimer;
 
+    // Keeps the ambush hunt active until the Minotaur sees
+    // the player, or the player hides.
+    private bool ambushHuntActive;
+
     private NavMeshAgent agent;
     private Animator animator;
     private Vector2 lastMoveDirection = Vector2.down;
+
+    private readonly System.Collections.Generic.HashSet<SafeZone>
+    activeSafeZones = new();
+
+    private bool playerIsInSafeZone;
 
     void Awake()
     {
@@ -67,17 +77,37 @@ public class MinotaurAI : MonoBehaviour
     {
         UpdateVision();
 
+        if (playerIsInSafeZone)
+        {
+            // The player is safe, so the Minotaur abandons the hunt.
+            if (currentState != State.Wander)
+                ChangeState(State.Wander);
+
+            // Continue wandering outside the protected area.
+            agent.isStopped = false;
+
+            WanderUpdate();
+            UpdateAnimation();
+
+            // Do not run vision-based state transitions while the
+            // player remains inside a safe zone.
+            return;
+        }
+
         switch (currentState)
         {
             case State.Wander:
                 WanderUpdate();
                 break;
+
             case State.Hunt:
                 HuntUpdate();
                 break;
+
             case State.Search:
                 SearchUpdate();
                 break;
+
             case State.Investigate:
                 InvestigateUpdate();
                 break;
@@ -95,9 +125,21 @@ public class MinotaurAI : MonoBehaviour
 
     void UpdateVision()
     {
-        if (player == null) return;
 
-        PlayerController playerController = player.GetComponent<PlayerController>();
+        if (player == null)
+        {
+            canSeePlayer = false;
+            return;
+        }
+
+        if (playerIsInSafeZone)
+        {
+            canSeePlayer = false;
+            return;
+        }
+
+        PlayerController playerController =
+            player.GetComponent<PlayerController>();
 
         if (playerController != null && playerController.IsHidden)
         {
@@ -140,7 +182,11 @@ public class MinotaurAI : MonoBehaviour
     {
         if (!agent.hasPath || agent.remainingDistance < 0.5f)
         {
-            Vector3 target = GetSafeRandomPoint(transform.position, wanderRadius);
+            Vector3 target = GetSafeRandomPoint(
+                transform.position,
+                wanderRadius
+            );
+
             SetSafeDestination(target);
         }
     }
@@ -151,9 +197,13 @@ public class MinotaurAI : MonoBehaviour
             return;
 
         PlayerController pc = player.GetComponent<PlayerController>();
-        float distance = Vector2.Distance(transform.position, player.position);
 
-        //grabbing 
+        float distance = Vector2.Distance(
+            transform.position,
+            player.position
+        );
+
+        // Handle an attempted grab.
         if (isAttemptingGrab)
         {
             grabTimer -= Time.deltaTime;
@@ -171,10 +221,12 @@ public class MinotaurAI : MonoBehaviour
 
                     Debug.Log("PLAYER DIED");
                 }
-                else //end grab after x time -todo make a distance check aswell
+                else
                 {
                     animator.SetBool("isGrabbing", false);
+
                     Debug.Log("PLAYER ESCAPED");
+
                     pc?.ClearGrabSlow();
                     agent.isStopped = false;
                 }
@@ -183,8 +235,7 @@ public class MinotaurAI : MonoBehaviour
             return;
         }
 
-
-        //start grab
+        // Start a grab when close enough.
         if (distance <= grabRange)
         {
             isAttemptingGrab = true;
@@ -202,7 +253,36 @@ public class MinotaurAI : MonoBehaviour
         }
 
         agent.isStopped = false;
+
+        // During an ambush, pursue the player's current position
+        // even if the player is temporarily outside normal vision.
         SetSafeDestination(player.position);
+    }
+
+    void UpdateAnimation()
+    {
+        Vector2 velocity = agent.velocity;
+        float speed = velocity.magnitude;
+
+        bool isMoving = speed > 0.05f;
+        animator.SetBool("IsMoving", isMoving);
+
+        if (isMoving)
+        {
+            Vector2 dir = velocity.normalized;
+
+            if (Mathf.Abs(dir.x) < 0.1f)
+                dir.x = 0;
+
+            if (Mathf.Abs(dir.y) < 0.1f)
+                dir.y = 0;
+
+            if (dir != Vector2.zero)
+                lastMoveDirection = dir;
+        }
+
+        animator.SetFloat("MoveX", lastMoveDirection.x);
+        animator.SetFloat("MoveY", lastMoveDirection.y);
     }
 
     void SearchUpdate()
@@ -211,13 +291,17 @@ public class MinotaurAI : MonoBehaviour
 
         if (!agent.hasPath || agent.remainingDistance < 0.5f)
         {
-            if (stateTimer <= 0)
+            if (stateTimer <= 0f)
             {
                 ChangeState(State.Wander);
                 return;
             }
 
-            Vector3 target = GetSafeRandomPoint(lastKnownPlayerPos, searchRadius);
+            Vector3 target = GetSafeRandomPoint(
+                lastKnownPlayerPos,
+                searchRadius
+            );
+
             SetSafeDestination(target);
         }
     }
@@ -226,12 +310,54 @@ public class MinotaurAI : MonoBehaviour
     {
         SetSafeDestination(investigationPos);
 
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        if (!agent.pathPending &&
+            agent.remainingDistance < 0.5f)
+        {
             ChangeState(State.Search);
+        }
     }
 
     void StateTransitions()
     {
+        // Special handling for an ambush.
+        if (ambushHuntActive)
+        {
+            PlayerController pc = player != null
+                ? player.GetComponent<PlayerController>()
+                : null;
+
+            // If the player hides, stop the forced hunt and search.
+            if (pc != null && pc.IsHidden)
+            {
+                ambushHuntActive = false;
+
+                lastKnownPlayerPos = player.position;
+
+                agent.isStopped = false;
+                agent.ResetPath();
+
+                pc.ClearGrabSlow();
+
+                isAttemptingGrab = false;
+                animator.SetBool("isGrabbing", false);
+
+                ChangeState(State.Search);
+                return;
+            }
+
+            // Once normal vision sees the player, return to
+            // the normal Hunt and vision transition rules.
+            if (canSeePlayer)
+            {
+                ambushHuntActive = false;
+            }
+            else
+            {
+                // Stay in Hunt until the player is seen or hides.
+                return;
+            }
+        }
+
         if (canSeePlayer)
         {
             ChangeState(State.Hunt);
@@ -277,7 +403,8 @@ public class MinotaurAI : MonoBehaviour
     {
         for (int i = 0; i < 5; i++)
         {
-            Vector3 randomPoint = origin + Random.insideUnitSphere * radius;
+            Vector3 randomPoint =
+                origin + Random.insideUnitSphere * radius;
 
             if (TryGetNavMeshPoint(randomPoint, out Vector3 hit))
                 return hit;
@@ -290,7 +417,12 @@ public class MinotaurAI : MonoBehaviour
     {
         NavMeshHit hit;
 
-        bool success = NavMesh.SamplePosition(source, out hit, 2f, NavMesh.AllAreas);
+        bool success = NavMesh.SamplePosition(
+            source,
+            out hit,
+            2f,
+            NavMesh.AllAreas
+        );
 
         if (success)
         {
@@ -302,27 +434,92 @@ public class MinotaurAI : MonoBehaviour
         return false;
     }
 
-    void UpdateAnimation()
+    // Called by an EnemyChase trigger.
+    public bool TriggerAmbush(
+    Transform targetPlayer,
+    Vector3 spawnPosition)
     {
-        Vector2 velocity = agent.velocity;
-        float speed = velocity.magnitude;
-
-        bool isMoving = speed > 0.05f;
-        animator.SetBool("IsMoving", isMoving);
-
-        if (isMoving)
+        if (targetPlayer == null)
         {
-            Vector2 dir = velocity.normalized;
-
-            if (Mathf.Abs(dir.x) < 0.1f) dir.x = 0;
-            if (Mathf.Abs(dir.y) < 0.1f) dir.y = 0;
-
-            if (dir != Vector2.zero)
-                lastMoveDirection = dir;
+            Debug.LogError("[AMBUSH] No player was supplied.");
+            return false;
         }
 
-        animator.SetFloat("MoveX", lastMoveDirection.x);
-        animator.SetFloat("MoveY", lastMoveDirection.y);
+        if (agent == null || !agent.enabled)
+        {
+            Debug.LogError("[AMBUSH] NavMeshAgent is missing or disabled.");
+            return false;
+        }
+
+        if (!TryGetNavMeshPoint(spawnPosition, out Vector3 safeSpawn))
+        {
+            Debug.LogError(
+                $"[AMBUSH] No NavMesh found near spawn point {spawnPosition}. " +
+                "Place the spawn point on the baked NavMesh."
+            );
+            return false;
+        }
+
+        PlayerController pc = targetPlayer.GetComponent<PlayerController>();
+
+        // Cancel an existing grab.
+        isAttemptingGrab = false;
+        grabTimer = 0f;
+
+        animator.SetBool("isGrabbing", false);
+        pc?.ClearGrabSlow();
+
+        // Stop existing movement.
+        if (agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+        }
+
+        // Warp works when the agent is already attached to a NavMesh.
+        // If it isn't, re-enable it at the valid sampled position.
+        if (agent.isOnNavMesh)
+        {
+            if (!agent.Warp(safeSpawn))
+            {
+                agent.isStopped = false;
+                Debug.LogError("[AMBUSH] NavMeshAgent.Warp failed.");
+                return false;
+            }
+        }
+        else
+        {
+            agent.enabled = false;
+            transform.position = safeSpawn;
+            agent.enabled = true;
+
+            if (!agent.isOnNavMesh)
+            {
+                Debug.LogError(
+                    "[AMBUSH] Agent could not attach to the NavMesh at the spawn point."
+                );
+                return false;
+            }
+        }
+
+        // Start the chase.
+        player = targetPlayer;
+        lastKnownPlayerPos = player.position;
+        lastSeenTime = Time.time;
+        investigationPos = player.position;
+
+        ambushHuntActive = true;
+        ChangeState(State.Hunt);
+
+        agent.isStopped = false;
+        SetSafeDestination(player.position);
+
+        Debug.Log(
+            $"[AMBUSH] SUCCESS! Minotaur spawned at {transform.position} " +
+            $"and is hunting player at {player.position}."
+        );
+
+        return true;
     }
 
     public void PlayerFinishedHiding()
@@ -331,17 +528,15 @@ public class MinotaurAI : MonoBehaviour
         if (currentState != State.Hunt)
             return;
 
-        // Remember where the player disappeared.
         lastKnownPlayerPos = player.position;
 
-        // Stop chasing immediately.
+        ambushHuntActive = false;
+
         agent.ResetPath();
         agent.isStopped = true;
 
-        // Begin searching around the hide spot.
         ChangeState(State.Search);
     }
-
 
     public bool CanPlayerNotHide()
     {
@@ -353,6 +548,65 @@ public class MinotaurAI : MonoBehaviour
 
         return true;
     }
+    public void EnterSafeZone(SafeZone zone, PlayerController enteringPlayer)
+    {
+        if (zone == null || enteringPlayer == null)
+            return;
+
+        // Only protect the player this Minotaur is assigned to.
+        if (player != null && player != enteringPlayer.transform)
+            return;
+
+        player = enteringPlayer.transform;
+
+        activeSafeZones.Add(zone);
+        playerIsInSafeZone = activeSafeZones.Count > 0;
+
+        if (!playerIsInSafeZone)
+            return;
+
+        // Cancel a grab and release the player's movement slow.
+        isAttemptingGrab = false;
+        grabTimer = 0f;
+
+        animator.SetBool("isGrabbing", false);
+        enteringPlayer.ClearGrabSlow();
+
+        // Stop the current chase and forget the forced ambush.
+        ambushHuntActive = false;
+
+        agent.isStopped = true;
+        agent.ResetPath();
+
+        // The Minotaur loses interest.
+        ChangeState(State.Wander);
+
+        Debug.Log("MINOTAUR: Player entered a safe zone.");
+    }
+
+    public void ExitSafeZone(SafeZone zone, PlayerController exitingPlayer)
+    {
+        if (zone == null || exitingPlayer == null)
+            return;
+
+        if (player != exitingPlayer.transform)
+            return;
+
+        activeSafeZones.Remove(zone);
+        playerIsInSafeZone = activeSafeZones.Count > 0;
+
+        // If the player is still inside another safe zone,
+        // keep them protected.
+        if (playerIsInSafeZone)
+            return;
+
+        agent.isStopped = false;
+        agent.ResetPath();
+
+        // Do not immediately restart the hunt.
+        // Normal vision can detect the player again.
+        Debug.Log("MINOTAUR: Player left the safe zone.");
+    }
 
     public void TriggerNoise(Vector3 position)
     {
@@ -360,14 +614,11 @@ public class MinotaurAI : MonoBehaviour
         ChangeState(State.Investigate);
     }
 
-
     private void OnDrawGizmosSelected()
     {
-        //grab range
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, grabRange);
 
-        //kill range
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, killRange);
     }
