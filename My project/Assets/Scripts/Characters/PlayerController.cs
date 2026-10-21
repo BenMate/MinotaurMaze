@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minZoom = 1.0f;
     [SerializeField] private float maxZoom = 10.0f;
 
+    [Header("Pushable Objects")]
+    [SerializeField, Min(0.1f)] private float pushDetectionDistance = 0.8f;
+
     [Header("- Hide Settings -")]
     [SerializeField] private float hideFadeDuration = 0.3f;
 
@@ -39,6 +42,10 @@ public class PlayerController : MonoBehaviour
     private SlidingTilePuzzle currentSlidingPuzzle;
 
     private TeleportDoor currentTeleportDoor;
+
+    private bool isGridPushing;
+    private PushableObject currentPushableObject;
+    public Vector2 LastMoveDirection => lastMoveDirection;
 
     public bool IsHidden { get; private set; }
 
@@ -99,6 +106,10 @@ public class PlayerController : MonoBehaviour
             {
                 currentTeleportDoor.Interact(this);
             }
+            else if (currentPushableObject != null)
+            {
+                currentPushableObject.TryPush(this);
+            }
 
         }
     }
@@ -119,6 +130,39 @@ public class PlayerController : MonoBehaviour
 
         if (movement.magnitude > 1f)
             movement.Normalize();
+
+        // Do not interrupt an active grid push.
+        if (isGridPushing)
+            return;
+
+        // Attempt a push when moving towards a pushable object.
+        if (movement.sqrMagnitude > 0.01f)
+        {
+            Vector2 pushDirection;
+
+            if (Mathf.Abs(movement.x) >= Mathf.Abs(movement.y))
+                pushDirection = new Vector2(Mathf.Sign(movement.x), 0f);
+            else
+                pushDirection = new Vector2(0f, Mathf.Sign(movement.y));
+
+            RaycastHit2D hit = Physics2D.Raycast(
+                rb.position,
+                pushDirection,
+                pushDetectionDistance
+            );
+
+            if (hit.collider != null)
+            {
+                PushableObject pushable =
+                    hit.collider.GetComponentInParent<PushableObject>();
+
+                if (pushable != null &&
+                    pushable.TryPush(this))
+                {
+                    return;
+                }
+            }
+        }
 
         UpdateAnimation(movement);
 
@@ -287,6 +331,64 @@ public class PlayerController : MonoBehaviour
             currentTeleportDoor = null;
     }
 
+    public void BeginGridPush(
+    Vector2 targetPosition,
+    Vector2 direction,
+    float duration)
+    {
+        if (isGridPushing)
+            return;
+
+        StartCoroutine(
+            MovePlayerForGridPush(targetPosition, direction, duration)
+        );
+    }
+
+    private IEnumerator MovePlayerForGridPush(
+        Vector2 targetPosition,Vector2 direction, float duration)
+    {
+        isGridPushing = true;
+        lastMoveDirection = direction;
+
+        animator.SetFloat("MoveX", direction.x);
+        animator.SetFloat("MoveY", direction.y);
+        animator.SetBool("IsMoving", true);
+
+        Vector2 startPosition = rb.position;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.fixedDeltaTime;
+
+            float progress = Mathf.Clamp01(elapsed / duration);
+
+            rb.MovePosition(
+                Vector2.Lerp(startPosition, targetPosition, progress)
+            );
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        rb.position = targetPosition;
+        transform.position = targetPosition;
+
+        animator.SetBool("IsMoving", false);
+
+        isGridPushing = false;
+    }
+
+    public void SetCurrentPushableObject(PushableObject pushable)
+    {
+        currentPushableObject = pushable;
+    }
+
+    public void ClearCurrentPushableObject(PushableObject pushable)
+    {
+        if (currentPushableObject == pushable)
+            currentPushableObject = null;
+    }
+
     public void TeleportTo(Vector3 destination)
     {
         // Stop any movement before changing position.
@@ -302,4 +404,6 @@ public class PlayerController : MonoBehaviour
         // Ensure the player is no longer playing a walking animation.
         animator.SetBool("IsMoving", false);
     }
+
+
 }
