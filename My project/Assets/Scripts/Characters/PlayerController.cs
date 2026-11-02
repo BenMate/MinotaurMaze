@@ -39,12 +39,14 @@ public class PlayerController : MonoBehaviour
     private NPCDialogue currentNPC;
 
     private IInteractable currentWaterInteractable;
+
     private SlidingTilePuzzle currentSlidingPuzzle;
+    private CodePuzzle currentCodePuzzle;
 
     private TeleportDoor currentTeleportDoor;
 
     private bool isGridPushing;
-    private PushableObject currentPushableObject;
+    private PushableObject currentPushableObject; 
     public Vector2 LastMoveDirection => lastMoveDirection;
 
     public bool IsHidden { get; private set; }
@@ -109,6 +111,10 @@ public class PlayerController : MonoBehaviour
             else if (currentPushableObject != null)
             {
                 currentPushableObject.TryPush(this);
+            }
+            else if (currentCodePuzzle != null)
+            {
+                currentCodePuzzle.Interact(this);
             }
 
         }
@@ -405,5 +411,34 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsMoving", false);
     }
 
+    public void SetCurrentCodePuzzle(CodePuzzle puzzle)
+    {
+        currentCodePuzzle = puzzle;
+    }
 
+    public void ClearCurrentCodePuzzle(CodePuzzle puzzle)
+    {
+        if (currentCodePuzzle == puzzle)
+            currentCodePuzzle = null;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        CodePuzzle puzzle = other.GetComponentInParent<CodePuzzle>();
+
+        if (puzzle != null)
+        {
+            puzzle.PlayerEnteredInteraction(this, other);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        CodePuzzle puzzle = other.GetComponentInParent<CodePuzzle>();
+
+        if (puzzle != null)
+        {
+            puzzle.PlayerExitedInteraction(this, other);
+        }
+    }
 }

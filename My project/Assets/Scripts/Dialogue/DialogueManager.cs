@@ -554,4 +554,23 @@ public class DialogueManager : MonoBehaviour
 
         currentLine = 0;
     }
+
+    public void StartMessage(string message, PlayerController player)
+    {
+        NPCDialogue.Conversation conversation =
+            new NPCDialogue.Conversation
+            {
+                lines = new NPCDialogue.DialogueLine[]
+                {
+                new NPCDialogue.DialogueLine
+                {
+                    text = message,
+                    moveAfter = false,
+                    autoNext = false
+                }
+                }
+            };
+
+        StartConversation(null, conversation, player);
+    }
 }
